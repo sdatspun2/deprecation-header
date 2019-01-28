@@ -4,7 +4,7 @@ coding: utf-8
 
 title: The Deprecation HTTP Header Field
 abbrev: mfld
-docname: draft-dalals-deprecation-header
+docname: draft-dalals-deprecation-header-latest
 category: info
 
 stand_alone: yes

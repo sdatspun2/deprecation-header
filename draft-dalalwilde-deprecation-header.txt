@@ -1,0 +1,392 @@
+
+
+
+
+Network Working Group                                           S. Dalal
+Internet-Draft
+Intended status: Standards Track                                E. Wilde
+Expires: August 1, 2019                                 January 28, 2019
+
+
+                      The Deprecation HTTP Header
+                 draft-dalalwilde-deprecation-header-00
+
+Abstract
+
+   The HTTP Deprecation header field can be used to signal to consumers
+   of a URI-identified resource that the use of the resource has been
+   deprecated.  Additionally, the deprecation link relation can be used
+   to link to a resource that provides additional context for the
+   deprecation, and possibly ways in which clients can find a
+   replacement for the deprecated resource.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on August 1, 2019.
+
+Copyright Notice
+
+   Copyright (c) 2019 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents
+   (https://trustee.ietf.org/license-info) in effect on the date of
+   publication of this document.  Please review these documents
+   carefully, as they describe your rights and restrictions with respect
+   to this document.  Code Components extracted from this document must
+   include Simplified BSD License text as described in Section 4.e of
+
+
+
+
+Dalal & Wilde            Expires August 1, 2019                 [Page 1]
+
+Internet-Draft         The Deprecation HTTP Header          January 2019
+
+
+   the Trust Legal Provisions and are provided without warranty as
+   described in the Simplified BSD License.
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+     1.1.  Notational Conventions  . . . . . . . . . . . . . . . . .   2
+     1.2.  Terminology . . . . . . . . . . . . . . . . . . . . . . .   2
+       1.2.1.  Resource  . . . . . . . . . . . . . . . . . . . . . .   3
+   2.  The Deprecation HTTP Response Header  . . . . . . . . . . . .   3
+     2.1.  Syntax  . . . . . . . . . . . . . . . . . . . . . . . . .   3
+     2.2.  With Link Header  . . . . . . . . . . . . . . . . . . . .   4
+   3.  The Deprecation Link Relation Type  . . . . . . . . . . . . .   4
+   4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   4
+     4.1.  The Deprecation Response Header Field . . . . . . . . . .   4
+     4.2.  The Deprecation Link Relation Type  . . . . . . . . . . .   5
+   5.  Security Considerations . . . . . . . . . . . . . . . . . . .   5
+   6.  Example . . . . . . . . . . . . . . . . . . . . . . . . . . .   5
+   7.  Implementation Status . . . . . . . . . . . . . . . . . . . .   5
+   8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   6
+     8.1.  Normative References  . . . . . . . . . . . . . . . . . .   6
+     8.2.  Informative References  . . . . . . . . . . . . . . . . .   6
+   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .   7
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   7
+
+1.  Introduction
+
+   [Deprecation] of a URI-identified resource Section 1.2.1 is a
+   technique to communicate information about the life cycle of a
+   resource: to encourage applications to migrate away from the
+   resource, to discourage applications from forming new dependencies on
+   the resource, and to inform developers of the risks of continuing
+   dependence upon the resource.
+
+1.1.  Notational Conventions
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in BCP
+   14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+1.2.  Terminology
+
+
+
+
+
+
+
+
+Dalal & Wilde            Expires August 1, 2019                 [Page 2]
+
+Internet-Draft         The Deprecation HTTP Header          January 2019
+
+
+1.2.1.  Resource
+
+   The key abstraction of information in [REST] is a resource.  Any
+   information that can be named can be a resource: a document or image,
+   a temporal service (e.g. "today's weather in San Francisco"), a
+   collection of other resources, a non-virtual object (e.g. a person),
+   and so on.  A resource is a conceptual mapping to a set of entities,
+   not the entity that corresponds to the mapping at any particular
+   point in time.  More precisely, a resource R is a temporally varying
+   membership function "MR(t)", that for time "t" maps to a set of
+   entities, or values, that are equivalent.  The values in the set may
+   be resource representations and/or resource identifiers.
+
+2.  The Deprecation HTTP Response Header
+
+2.1.  Syntax
+
+   Deprecation: since=<date or version>; sunset=<date>;
+
+   To Erik, Mark: We could use Sunset header if it is going to be
+   approved.  Else we would use a key named "sunset".
+
+   *Since*
+
+   The value of "since" could be the resource (or API) version since
+   when this resource was deprecated.  For APIs, that use date-based
+   versioning scheme, the value could be accordingly.
+
+   Following example indicates that the resource in context has been
+   deprecated since version "v2".
+
+   Deprecation: since=v2
+
+   Following example shows that the resource in context is deprecated
+   since 2018-11-08 (November 8, 2018).
+
+   Deprecation: since=2018-11-08
+
+   *Sunset (optional)*
+
+   The value for "sunset" would be an HTTP-date timestamp, as defined in
+   Section 7.1.1.1 of [RFC7231].  This information provided as a hint
+   allows a service to communicate the fact that a resource is expected
+   to become unresponsive at a specific point in time.
+
+
+
+
+
+
+
+Dalal & Wilde            Expires August 1, 2019                 [Page 3]
+
+Internet-Draft         The Deprecation HTTP Header          January 2019
+
+
+2.2.  With Link Header
+
+   Link header as defined in [RFC8288] could be used in addition to the
+   Deprecation header to inform the applications about alternates to the
+   deprecated if applicable.  Following relationship types as defined in
+   [RFC5988] might be appropriate to use in such cases.
+
+   o  successor-version
+
+   o  latest-version
+
+   o  alternate
+
+   Following example provides link to the successor version of the
+   resource that is deprecated.
+
+   Deprecation: v2
+   Link: http://api.example.com/v2/customers; rel=successor-version
+
+   Following example provides link to an alternate resource to use
+   instead of the called resource that is deprecated.
+
+   Deprecation: 2018-11-11
+   Link: http://api.example.com/v2/clients; rel=alternate
+
+3.  The Deprecation Link Relation Type
+
+4.  IANA Considerations
+
+4.1.  The Deprecation Response Header Field
+
+   The "Deprecation" response header should be added to the permanent
+   registry of message header fields (see [RFC3864]), taking into
+   account the guidelines given by HTTP/1.1 [RFC7231].
+
+       Header Field Name: Deprecation
+
+       Applicable Protocol: Hypertext Transfer Protocol (HTTP)
+
+       Status: Informational
+
+       Author/Change controller: IETF
+
+       Specification document(s): RFC XXXX
+
+
+
+
+
+
+
+Dalal & Wilde            Expires August 1, 2019                 [Page 4]
+
+Internet-Draft         The Deprecation HTTP Header          January 2019
+
+
+4.2.  The Deprecation Link Relation Type
+
+   The "deprecation" link relation type should be added to the permanent
+   registry of link relation types according to Section 4.2 of
+   [RFC8288]:
+
+       Relation Name: deprecation
+
+       Description: ...
+
+       Reference: RFC XXXX
+
+5.  Security Considerations
+
+   TODO Security
+
+6.  Example
+
+7.  Implementation Status
+
+   Note to RFC Editor: Please remove this section before publication.
+
+   This section records the status of known implementations of the
+   protocol defined by this specification at the time of posting of this
+   Internet-Draft, and is based on a proposal described in [RFC6982].
+   The description of implementations in this section is intended to
+   assist the IETF in its decision processes in progressing drafts to
+   RFCs.  Please note that the listing of any individual implementation
+   here does not imply endorsement by the IETF.  Furthermore, no effort
+   has been spent to verify the information presented here that was
+   supplied by IETF contributors.  This is not intended as, and must not
+   be construed to be, a catalog of available implementations or their
+   features.  Readers are advised to note that other implementations may
+   exist.
+
+   According to RFC 6982, "this will allow reviewers and working groups
+   to assign due consideration to documents that have the benefit of
+   running code, which may serve as evidence of valuable experimentation
+   and feedback that have made the implemented protocols more mature.
+   It is up to the individual working groups to use this information as
+   they see fit".
+
+
+
+
+
+
+
+
+
+
+Dalal & Wilde            Expires August 1, 2019                 [Page 5]
+
+Internet-Draft         The Deprecation HTTP Header          January 2019
+
+
+       Organization: ...
+
+       Name: ...
+
+       Licensing: ...
+
+       Description: ...
+
+8.  References
+
+8.1.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
+   [RFC3864]  Klyne, G., Nottingham, M., and J. Mogul, "Registration
+              Procedures for Message Header Fields", BCP 90, RFC 3864,
+              DOI 10.17487/RFC3864, September 2004,
+              <https://www.rfc-editor.org/info/rfc3864>.
+
+   [RFC5988]  Nottingham, M., "Web Linking", RFC 5988,
+              DOI 10.17487/RFC5988, October 2010,
+              <https://www.rfc-editor.org/info/rfc5988>.
+
+   [RFC7231]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
+              Protocol (HTTP/1.1): Semantics and Content", RFC 7231,
+              DOI 10.17487/RFC7231, June 2014,
+              <https://www.rfc-editor.org/info/rfc7231>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
+
+   [RFC8288]  Nottingham, M., "Web Linking", RFC 8288,
+              DOI 10.17487/RFC8288, October 2017,
+              <https://www.rfc-editor.org/info/rfc8288>.
+
+8.2.  Informative References
+
+   [Deprecation]
+              Marks, S., "JEP 277 - Enhanced Deprecation", 2017,
+              <http://openjdk.java.net/jeps/277>.
+
+
+
+
+
+
+
+Dalal & Wilde            Expires August 1, 2019                 [Page 6]
+
+Internet-Draft         The Deprecation HTTP Header          January 2019
+
+
+   [REST]     Fielding, R., "Architectural Styles and the Design of
+              Network-based Software Architectures", Ph.D. Dissertation,
+              University of California, Irvine, 2000,
+              <http://www.ics.uci.edu/~fielding/pubs/dissertation/
+              fielding_dissertation.pdf>.
+
+   [RFC6982]  Sheffer, Y. and A. Farrel, "Improving Awareness of Running
+              Code: The Implementation Status Section", RFC 6982,
+              DOI 10.17487/RFC6982, July 2013,
+              <https://www.rfc-editor.org/info/rfc6982>.
+
+Acknowledgments
+
+   The authors take all responsibility for errors and omissions.
+
+Authors' Addresses
+
+   Sanjay Dalal
+
+   Email: sanjay.dalal@cal.berkeley.edu
+
+
+   Erik Wilde
+
+   Email: erik.wilde@dret.net
+   URI:   http://dret.net/netdret
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Dalal & Wilde            Expires August 1, 2019                 [Page 7]

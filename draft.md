@@ -2,7 +2,7 @@
 coding: utf-8
 
 title: The Deprecation HTTP Header
-docname: draft-dalalwilde-deprecation-header-00
+docname: draft-dalals-deprecation-header-00
 category: std
 
 stand_alone: yes
@@ -13,6 +13,7 @@ author:
     ins: S. Dalal
     name: Sanjay Dalal
     email: sanjay.dalal@cal.berkeley.edu
+    uri: https://scholar.google.com/citations?user=sje6jrIAAAAJ&hl=en&oi=ao
   -    
     ins: E. Wilde
     name: Erik Wilde
@@ -55,7 +56,7 @@ The HTTP Deprecation header field can be used to signal to consumers of a URI-id
 
 # Introduction
 
-{{Deprecation}} of a URI-identified [resource](#resource) is a technique to communicate information about the life cycle of a resource: to encourage client applications to migrate away from the resource, to discourage applications from forming new dependencies on the resource, and to inform developers of the risks of continuing dependence upon the resource. The act of deprecation does not change any behavior of the resource. It just informs the clients of the fact and optionally provides additional information such as since when the deprecation is in effect, what is the alternate(s) if any. Alternates could be similar resource(s) or later version of the same resource.
+{{Deprecation}} of a URI-identified [resource](#resource) is a technique to communicate information about the life cycle of a resource: to encourage client applications to migrate away from the resource, to discourage applications from forming new dependencies on the resource, and to inform developers of the risks of continuing dependence upon the resource. The act of deprecation does not change any behavior of the resource. It just informs the clients of the fact. It optionally provides additional information such as since when the deprecation is in effect, what is the alternate(s), if any, and possibly when the deprecated resource would be unreachable. Alternates of a resource could be similar resource(s) or a later version of the same resource.
 
 ## Notational Conventions
 
@@ -65,43 +66,41 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 ### Resource
 
-The key abstraction of information in {{REST}} is a resource. Any information that can be named can be a resource: a document or image, a temporal service (e.g. "today's weather in San Francisco"), a collection of other resources, a non-virtual object (e.g. a person), and so on. A resource is a conceptual mapping to a set of entities, not the entity that corresponds to the mapping at any particular point in time. More precisely, a resource R is a temporally varying membership function `MR(t)`, that for time `t` maps to a set of entities, or values, that are equivalent. The values in the set may be resource representations and/or resource identifiers. 
+The key abstraction of information in {{REST}} is a URI-identified resource. Any information that can be named can be a resource: a document or image, a temporal service (e.g. "today's weather in San Francisco"), a collection of other resources, a non-virtual object (e.g. a person), and so on. A resource is a conceptual mapping to a set of entities, not the entity that corresponds to the mapping at any particular point in time. More precisely, a resource R is a temporally varying membership function `MR(t)`, that for time `t` maps to a set of entities, or values, that are equivalent. The values in the set may be resource representations and/or resource identifiers. 
 
 
 # The Deprecation HTTP Response Header
 
+The Deprecation HTTP header allows a server to communicate to a client that the URI-identified resource involved in a request and/or response is deprecated. It could also provide information that the resource is deprecated since which version and optionally when it is expected to become unresponsive. 
 
 ## Syntax
 
-    Deprecation: since=<date or version>; sunset=<date>;
-
-To Erik, Mark: We could use Sunset header if it is going to be approved. Else we would use a key named `sunset` in addition to `since`.
+    Deprecation: <date or version>; sunset=<date>;
 
 **Since**
 
-The value of `since` could be the resource (or API) version since when this resource was deprecated. For APIs, that use date-based versioning scheme, the value could be accordingly.
+The value of the header if present could be the version of the resource (or API) since when this resource was deprecated (or is planned to be deprecated). For APIs that use date-based versioning scheme, the value could be accordingly. 
 
 Following example indicates that the resource in context has been deprecated since version `v2`.
 
-    Deprecation: since=v2
+    Deprecation: v2
     
-Following example shows that the resource in context is deprecated since 2018-11-08 (November 8, 2018).    
+Following example shows that the resource in context is deprecated since version as of `2018-11-08` (November 8, 2018). Here it is assumed that versioning scheme used is based on date.   
 
-    Deprecation: since=2018-11-08 
+    Deprecation: 2018-11-08 
 
 
 **Sunset (optional)**
 
 The value for `sunset` would be an HTTP-date timestamp, as defined in Section 7.1.1.1 of {{!RFC7231}}. This information provided as a hint allows a service to communicate the fact that a resource is expected to become unresponsive at a specific point in time.
 
-
 Following example indicates that the resource in context has been deprecated since version `v2` and sunset date for the deprecated version is Fri, 11 Nov 2020 23:59:59 GMT.
 
-	Deprecation: since=v2; sunset=Fri, 11 Nov 2020 23:59:59 GMT
+	Deprecation: v2; sunset=Fri, 11 Nov 2020 23:59:59 GMT
 
 ## Associated Link Header
 
-Link header as defined in {{!RFC8288}} could be used in addition to the Deprecation header to inform the applications about alternates to the deprecated resource as needed. Following relationship types as defined in {{!RFC5988}} might be appropriate to use in such cases.
+`Link` header as defined in {{!RFC8288}} could be used in addition to the Deprecation header to inform the applications about alternates to the deprecated resource as needed. Following relationship types as defined in {{!RFC5988}} might be appropriate to use in such cases.
 
 * successor-version: Points to a resource containing the successor version. {{!RFC5829}}
 * latest-version: Points to a resource containing the latest (e.g., current) version. {{!RFC5829}}
@@ -109,18 +108,20 @@ Link header as defined in {{!RFC8288}} could be used in addition to the Deprecat
 
 Following example provides link to the successor version of the v1 version of `customer` resource that is deprecated.
 
-    Deprecation: since=v2
+    Deprecation: v2
     Link: https://api.example.com/v2/customers; rel=successor-version
     
 This example provides link to an alternate resource to the `customer` resource that is deprecated.    
 
-    Deprecation: since=2018-11-11
+    Deprecation: 2018-11-11
     Link: https://api.example.com/v1/clients; rel=alternate
 
 
 # The Deprecation Link Relation Type
 
-
+In addition to the Deprecation HTTP header, the server could use a `Link` header(s) to communicate to the client where to find more information about its deprecation policy.
+ 
+TBD: Erik?
 
     
 
@@ -182,7 +183,7 @@ According to RFC 6982, "this will allow reviewers and working groups to assign d
 
 # Security Considerations
 
-TODO Security
+TBD: Erik?
 
 
 
@@ -190,17 +191,17 @@ TODO Security
 
 Just deprecation header without any Link headers.
 
-    Deprecation: since=v2
+    Deprecation: v2
     
 Deprecation header with link to the successor version.
 
-    Deprecation: since=v2
+    Deprecation: v2
     Link: https://api.example.com/v2/customers; rel=successor-version
     
     
 Deprecation header with links for the successor version and for the API developer's depercation policy. Also, it shows `sunset` date for the deprecated version (`v1`);
     
-    Deprecation: since=v2; sunset=Fri, 11 Nov 2020 23:59:59 GMT
+    Deprecation: v2; sunset=Fri, 11 Nov 2020 23:59:59 GMT
     Link: https://api.example.com/v2/customers; rel=successor-version
     Link: https://developer.example.com/deprecation; rel=deprecation
 

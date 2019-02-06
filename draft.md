@@ -13,7 +13,7 @@ author:
     ins: S. Dalal
     name: Sanjay Dalal
     email: sanjay.dalal@cal.berkeley.edu
-    uri: https://scholar.google.com/citations?user=sje6jrIAAAAJ&hl=en&oi=ao
+    uri: https://github.com/sdatspun2
   -    
     ins: E. Wilde
     name: Erik Wilde
@@ -23,31 +23,19 @@ author:
 normative:
 
 informative:
-    REST:
-        target: http://www.ics.uci.edu/~fielding/pubs/dissertation/fielding_dissertation.pdf
-        title: Architectural Styles and the Design of Network-based Software Architectures
-        author:
-        -
-            ins: R. Fielding
-            name: Roy Thomas Fielding
-            org: University of California, Irvine
-        date: 2000
-        seriesinfo:
-            "Ph.D.": "Dissertation, University of California, Irvine"
-        format:
-            PDF: http://www.ics.uci.edu/~fielding/pubs/dissertation/fielding_dissertation.pdf     
+    
     Deprecation:
        target: http://openjdk.java.net/jeps/277
        title: JEP 277 - Enhanced Deprecation
        author:
        -
-       	ins: S. Marks
-       	name: Stuart Marks
+           ins: S. Marks
+           name: Stuart Marks
        date: 2017         
       
 --- abstract
 
-The HTTP Deprecation header field can be used to signal to consumers of a URI-identified resource that the use of the resource has been deprecated. Additionally, the deprecation link relation can be used to link to a resource that provides additional context for the deprecation, and possibly ways in which clients can find a replacement for the deprecated resource.
+The HTTP Deprecation response header can be used to signal to consumers of a URI-identified resource that the use of the resource has been deprecated. Additionally, the deprecation link relation can be used to link to a resource that provides additional context for the deprecation, and possibly ways in which clients can find a replacement for the deprecated resource.
 
 
 --- middle
@@ -56,64 +44,78 @@ The HTTP Deprecation header field can be used to signal to consumers of a URI-id
 
 # Introduction
 
-{{Deprecation}} of a URI-identified [resource](#resource) is a technique to communicate information about the life cycle of a resource: to encourage client applications to migrate away from the resource, to discourage applications from forming new dependencies on the resource, and to inform developers of the risks of continuing dependence upon the resource. The act of deprecation does not change any behavior of the resource. It just informs the clients of the fact. It optionally provides additional information such as since when the deprecation is in effect, what is the alternate(s), if any, and possibly when the deprecated resource would be unreachable. Alternates of a resource could be similar resource(s) or a later version of the same resource.
+{{Deprecation}} of a URI-identified resource is a technique to communicate information about the life cycle of a resource: to encourage client applications to migrate away from the resource, to discourage applications from forming new dependencies on the resource, and to inform developers of the risks of continuing dependence upon the resource. The act of deprecation does not change any behavior of the resource. It just informs the clients of the fact. 
+
+Deprecation HTTP response header MUST be used to convey this fact at runtime to the clients. This header could carry additional information such as since when the deprecation is in effect, what is the alternate(s) if any, and possibly when the deprecated resource would be unreachable (or sunset). Alternates of a resource could be similar resource(s) or a later version of the same resource.
 
 ## Notational Conventions
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 {{!RFC2119}} {{!RFC8174}} when, and only when, they appear in all capitals, as shown here.
 
-## Terminology
-
-### Resource
-
-The key abstraction of information in {{REST}} is a URI-identified resource. Any information that can be named can be a resource: a document or image, a temporal service (e.g. "today's weather in San Francisco"), a collection of other resources, a non-virtual object (e.g. a person), and so on. A resource is a conceptual mapping to a set of entities, not the entity that corresponds to the mapping at any particular point in time. More precisely, a resource R is a temporally varying membership function `MR(t)`, that for time `t` maps to a set of entities, or values, that are equivalent. The values in the set may be resource representations and/or resource identifiers. 
 
 
 # The Deprecation HTTP Response Header
 
-The Deprecation HTTP header allows a server to communicate to a client that the URI-identified resource involved in a request and/or response is deprecated. It could also provide information that the resource is deprecated since which version and optionally when it is expected to become unresponsive. 
+The `Deprecation` HTTP response header allows a server to communicate to a client that the URI-identified resource involved in a request and/or response is deprecated. It could also provide information that the resource is deprecated since which version and optionally when it is expected to become unresponsive. 
 
 ## Syntax
 
-    Deprecation: <date or version>; sunset=<date>;
+The value of `Deprecation` header could consist of at most 3 properties: `date`, `version` and `sunset`. Either `version` or `date` is REQUIRED, `sunset` is OPTIONAL.
 
-**Since**
-
-The value of the header if present could be the version of the resource (or API) since when this resource was deprecated (or is planned to be deprecated). For APIs that use date-based versioning scheme, the value could be accordingly. 
-
-Following example indicates that the resource in context has been deprecated since version `v2`.
-
-    Deprecation: v2
+    Deprecation: version=<version>; date=<date>; sunset=<sunset date>;
     
-Following example shows that the resource in context is deprecated since version as of `2018-11-08` (November 8, 2018). Here it is assumed that versioning scheme used is based on date.   
 
-    Deprecation: 2018-11-08 
+### Version
 
+The value of the `version` property, if present, could be the deprecated version of the resource. For resources that use date-based versioning scheme, the value would be accordingly. 
 
-**Sunset (optional)**
+Following example indicates that the version v1 of the resource in context is deprecated.
 
-The value for `sunset` would be an HTTP-date timestamp, as defined in Section 7.1.1.1 of {{!RFC7231}}. This information provided as a hint allows a service to communicate the fact that a resource is expected to become unresponsive at a specific point in time.
+    Deprecation: version=v1
+    
+Following example shows that the version 2018-11-08 (November 8, 2018) of the resource in context is deprecated. Here the versioning scheme used is date-based.   
 
-Following example indicates that the resource in context has been deprecated since version `v2` and sunset date for the deprecated version is Fri, 11 Nov 2020 23:59:59 GMT.
+    Deprecation: version=2018-11-08 
 
-	Deprecation: v2; sunset=Fri, 11 Nov 2020 23:59:59 GMT
+### Date
+
+The value of `date` property, if present, would be the date when resource was deprecated. It would be in the form of an HTTP-date timestamp, as defined in Section 7.1.1.1 of {{!RFC7231}}. 
+
+Following example shows that the resource in context is deprecated on Friday, November 11, 2018 at 23:59:59 GMT.
+
+    Deprecation: date=Fri, 11 Nov 2018 23:59:59 GMT
+
+Date could be in future too. If the value of `date` is in future, it means that the resource will be deprecated on the given date in future.
+
+### Sunset (optional)
+
+The value for `sunset` property would be an HTTP-date timestamp, as defined in Section 7.1.1.1 of {{!RFC7231}}. This information provided as a hint and allows a service to communicate the fact that a resource is expected to become unresponsive at a specific point in time.
+
+Following example indicates that the resource in context has been deprecated since version v2 and its sunset date is Friday, November 11, 2020 at 23:59:59 GMT.
+
+    Deprecation: version=v2; sunset=Fri, 11 Nov 2020 23:59:59 GMT
+    
+Following example shows that the resource in context has been deprecated since Friday, November 11, 2018 at 23:59:59 GMT and its sunset date is Friday, November 11, 2020 at 23:59:59 GMT.
+
+    Deprecation: date=Fri, 11 Nov 2018 23:59:59 GMT; sunset=Fri, 11 Nov 2020 23:59:59 GMT    
+    
 
 ## Associated Link Header
 
 `Link` header as defined in {{!RFC8288}} could be used in addition to the Deprecation header to inform the applications about alternates to the deprecated resource as needed. Following relationship types as defined in {{!RFC5988}} might be appropriate to use in such cases.
 
-* successor-version: Points to a resource containing the successor version. {{!RFC5829}}
-* latest-version: Points to a resource containing the latest (e.g., current) version. {{!RFC5829}}
-* alternate: Designates a substitute. [W3C.REC-html401-19991224]
+* `successor-version`: Points to a resource containing the successor version. {{!RFC5829}}
+* `latest-version`: Points to a resource containing the latest (e.g., current) version. {{!RFC5829}}
+* `alternate`: Designates a substitute. [W3C.REC-html401-19991224]
 
 Following example provides link to the successor version of the v1 version of `customer` resource that is deprecated.
 
-    Deprecation: v2
+    Deprecation: version=v1
     Link: https://api.example.com/v2/customers; rel=successor-version
     
 This example provides link to an alternate resource to the `customer` resource that is deprecated.    
 
-    Deprecation: 2018-11-11
+    Deprecation: version=2018-11-11
     Link: https://api.example.com/v1/clients; rel=alternate
 
 
@@ -132,15 +134,15 @@ TBD: Erik?
 
 The `Deprecation` response header should be added to the permanent registry of message header fields (see {{!RFC3864}}), taking into account the guidelines given by HTTP/1.1 {{!RFC7231}}.
 
-	Header Field Name: Deprecation
-	
-	Applicable Protocol: Hypertext Transfer Protocol (HTTP)
+    Header Field Name: Deprecation
+    
+    Applicable Protocol: Hypertext Transfer Protocol (HTTP)
 
-	Status: Informational
-	
-	Author/Change controller: IETF
-	
-	Specification document(s): RFC XXXX
+    Status: Informational
+    
+    Author/Change controller: IETF
+    
+    Specification document(s): RFC XXXX
 
 
 ## The Deprecation Link Relation Type
@@ -148,11 +150,11 @@ The `Deprecation` response header should be added to the permanent registry of m
 The `deprecation` link relation type should be added to the permanent registry of link relation types according to Section 4.2 of {{!RFC8288}}:
 
 
-	Relation Name: deprecation
-	
-	Description: ...
-	
-	Reference: RFC XXXX
+    Relation Name: deprecation
+    
+    Description: ...
+    
+    Reference: RFC XXXX
 
 
 
@@ -166,20 +168,27 @@ other implementations may exist.
 According to RFC 6982, "this will allow reviewers and working groups to assign due consideration to documents that have the benefit of running code, which may serve as evidence of valuable experimentation and feedback that have made the implemented protocols more mature. It is up to the individual working groups to use this information as they see fit".
 
 
-	Organization: PayPal
-	
-	Name: PayPal as a Service, PayPal's API Style Guide - https://github.com/paypal/api-standards/blob/master/api-style-guide.md, deprecation https://github.com/paypal/api-standards/blob/master/api-style-guide.md#runtime 
-	
-	Licensing: OpenSource (https://www.paypal-engineering.com/2017/09/)
-	
-	Description: PayPal began the journey to transform all of PayPal’s core capabilities into a platform of discoverable, well-encapsulated, reusable API-driven products few years back. PayPal as a Service (PPaaS) is a micro service platform offering a portfolio of 150+ RESTful APIs for use by internal and external developers to access several PayPal capabilities. These APIs are used by applications including but not limited to build.com, Uber, eBay, Venmo, Braintree, Samsung, and numerous internal PayPal applications. 
-	
-	Maturity: Production (internal and external APIs). 
-	
-	Coverage: HTTP 1.1, HTTP Header
-	
-	Contact: Nikhil Kolekar (nikhil.kolekar@gmail.com)
-	
+    Organization: PayPal
+    
+    Name: PayPal API Guidelines
+    
+    Licensing: OpenSource (https://www.paypal-engineering.com/2017/09/)
+    
+    Description: PayPal core capabilities are available from a 
+    platform of discoverable, well-encapsulated, reusable API-driven 
+    products. PayPal as a Service (PPaaS) is a micro service platform 
+    offering a portfolio of 150+ RESTful APIs for use by internal and 
+    external developers to access several PayPal capabilities. These 
+    APIs are used by applications including but not limited to 
+    build.com, Uber, eBay, Venmo, Braintree, Samsung, and numerous 
+    internal PayPal applications. 
+    
+    Maturity: Production (internal and external APIs). 
+    
+    Coverage: HTTP Header for deprecation
+    
+    Contact: Nikhil Kolekar (nikhil.kolekar@gmail.com)
+    
 
 # Security Considerations
 
@@ -191,17 +200,17 @@ TBD: Erik?
 
 Just deprecation header without any Link headers.
 
-    Deprecation: v2
+    Deprecation: version=v1
     
 Deprecation header with link to the successor version.
 
-    Deprecation: v2
+    Deprecation: version=v1
     Link: https://api.example.com/v2/customers; rel=successor-version
     
     
-Deprecation header with links for the successor version and for the API developer's depercation policy. Also, it shows `sunset` date for the deprecated version (`v1`);
+Deprecation header with links for the successor version and for the API developer's deprecation policy. Also, it shows `sunset` date for the deprecated version (v1);
     
-    Deprecation: v2; sunset=Fri, 11 Nov 2020 23:59:59 GMT
+    Deprecation: version=v1; sunset=Fri, 11 Nov 2020 23:59:59 GMT
     Link: https://api.example.com/v2/customers; rel=successor-version
     Link: https://developer.example.com/deprecation; rel=deprecation
 

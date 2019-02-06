@@ -23,7 +23,7 @@
       <organization></organization>
       <address>
         <email>sanjay.dalal@cal.berkeley.edu</email>
-        <uri>https://scholar.google.com/citations?user=sje6jrIAAAAJ&amp;hl=en&amp;oi=ao</uri>
+        <uri>https://github.com/sdatspun2</uri>
       </address>
     </author>
     <author initials="E." surname="Wilde" fullname="Erik Wilde">
@@ -34,7 +34,7 @@
       </address>
     </author>
 
-    <date year="2019" month="February" day="01"/>
+    <date year="2019" month="February" day="05"/>
 
     
     
@@ -43,7 +43,7 @@
     <abstract>
 
 
-<t>The HTTP Deprecation header field can be used to signal to consumers of a URI-identified resource that the use of the resource has been deprecated. Additionally, the deprecation link relation can be used to link to a resource that provides additional context for the deprecation, and possibly ways in which clients can find a replacement for the deprecated resource.</t>
+<t>The HTTP Deprecation response header can be used to signal to consumers of a URI-identified resource that the use of the resource has been deprecated. Additionally, the deprecation link relation can be used to link to a resource that provides additional context for the deprecation, and possibly ways in which clients can find a replacement for the deprecated resource.</t>
 
 
 
@@ -57,80 +57,97 @@
 
 <section anchor="introduction" title="Introduction">
 
-<t><xref target="Deprecation"/> of a URI-identified <xref target="resource"></xref> is a technique to communicate information about the life cycle of a resource: to encourage client applications to migrate away from the resource, to discourage applications from forming new dependencies on the resource, and to inform developers of the risks of continuing dependence upon the resource. The act of deprecation does not change any behavior of the resource. It just informs the clients of the fact. It optionally provides additional information such as since when the deprecation is in effect, what is the alternate(s), if any, and possibly when the deprecated resource would be unreachable. Alternates of a resource could be similar resource(s) or a later version of the same resource.</t>
+<t><xref target="Deprecation"/> of a URI-identified resource is a technique to communicate information about the life cycle of a resource: to encourage client applications to migrate away from the resource, to discourage applications from forming new dependencies on the resource, and to inform developers of the risks of continuing dependence upon the resource. The act of deprecation does not change any behavior of the resource. It just informs the clients of the fact.</t>
+
+<t>Deprecation HTTP response header MUST be used to convey this fact at runtime to the clients. This header could carry additional information such as since when the deprecation is in effect, what is the alternate(s) if any, and possibly when the deprecated resource would be unreachable (or sunset). Alternates of a resource could be similar resource(s) or a later version of the same resource.</t>
 
 <section anchor="notational-conventions" title="Notational Conventions">
 
 <t>The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “NOT RECOMMENDED”, “MAY”, and “OPTIONAL” in this document are to be interpreted as described in BCP 14 <xref target="RFC2119"/> <xref target="RFC8174"/> when, and only when, they appear in all capitals, as shown here.</t>
 
 </section>
-<section anchor="terminology" title="Terminology">
-
-<section anchor="resource" title="Resource">
-
-<t>The key abstraction of information in <xref target="REST"/> is a URI-identified resource. Any information that can be named can be a resource: a document or image, a temporal service (e.g. “today’s weather in San Francisco”), a collection of other resources, a non-virtual object (e.g. a person), and so on. A resource is a conceptual mapping to a set of entities, not the entity that corresponds to the mapping at any particular point in time. More precisely, a resource R is a temporally varying membership function <spanx style="verb">MR(t)</spanx>, that for time <spanx style="verb">t</spanx> maps to a set of entities, or values, that are equivalent. The values in the set may be resource representations and/or resource identifiers.</t>
-
-</section>
-</section>
 </section>
 <section anchor="the-deprecation-http-response-header" title="The Deprecation HTTP Response Header">
 
-<t>The Deprecation HTTP header allows a server to communicate to a client that the URI-identified resource involved in a request and/or response is deprecated. It could also provide information that the resource is deprecated since which version and optionally when it is expected to become unresponsive.</t>
+<t>The <spanx style="verb">Deprecation</spanx> HTTP response header allows a server to communicate to a client that the URI-identified resource involved in a request and/or response is deprecated. It could also provide information that the resource is deprecated since which version and optionally when it is expected to become unresponsive.</t>
 
 <section anchor="syntax" title="Syntax">
 
-<figure><artwork><![CDATA[
-Deprecation: <date or version>; sunset=<date>;
-]]></artwork></figure>
-
-<t><spanx style="strong">Since</spanx></t>
-
-<t>The value of the header if present could be the version of the resource (or API) since when this resource was deprecated (or is planned to be deprecated). For APIs that use date-based versioning scheme, the value could be accordingly.</t>
-
-<t>Following example indicates that the resource in context has been deprecated since version <spanx style="verb">v2</spanx>.</t>
+<t>The value of <spanx style="verb">Deprecation</spanx> header could consist of at most 3 properties: <spanx style="verb">date</spanx>, <spanx style="verb">version</spanx> and <spanx style="verb">sunset</spanx>. Either <spanx style="verb">version</spanx> or <spanx style="verb">date</spanx> is REQUIRED, <spanx style="verb">sunset</spanx> is OPTIONAL.</t>
 
 <figure><artwork><![CDATA[
-Deprecation: v2
+Deprecation: version=<version>; date=<date>; sunset=<sunset date>;
 ]]></artwork></figure>
 
-<t>Following example shows that the resource in context is deprecated since version as of <spanx style="verb">2018-11-08</spanx> (November 8, 2018). Here it is assumed that versioning scheme used is based on date.</t>
+<section anchor="version" title="Version">
+
+<t>The value of the <spanx style="verb">version</spanx> property, if present, could be the deprecated version of the resource. For resources that use date-based versioning scheme, the value would be accordingly.</t>
+
+<t>Following example indicates that the version v1 of the resource in context is deprecated.</t>
 
 <figure><artwork><![CDATA[
-Deprecation: 2018-11-08 
+Deprecation: version=v1
 ]]></artwork></figure>
 
-<t><spanx style="strong">Sunset (optional)</spanx></t>
-
-<t>The value for <spanx style="verb">sunset</spanx> would be an HTTP-date timestamp, as defined in Section 7.1.1.1 of <xref target="RFC7231"/>. This information provided as a hint allows a service to communicate the fact that a resource is expected to become unresponsive at a specific point in time.</t>
-
-<t>Following example indicates that the resource in context has been deprecated since version <spanx style="verb">v2</spanx> and sunset date for the deprecated version is Fri, 11 Nov 2020 23:59:59 GMT.</t>
+<t>Following example shows that the version 2018-11-08 (November 8, 2018) of the resource in context is deprecated. Here the versioning scheme used is date-based.</t>
 
 <figure><artwork><![CDATA[
-    Deprecation: v2; sunset=Fri, 11 Nov 2020 23:59:59 GMT
+Deprecation: version=2018-11-08 
 ]]></artwork></figure>
 
+</section>
+<section anchor="date" title="Date">
+
+<t>The value of <spanx style="verb">date</spanx> property, if present, would be the date when resource was deprecated. It would be in the form of an HTTP-date timestamp, as defined in Section 7.1.1.1 of <xref target="RFC7231"/>.</t>
+
+<t>Following example shows that the resource in context is deprecated on Friday, November 11, 2018 at 23:59:59 GMT.</t>
+
+<figure><artwork><![CDATA[
+Deprecation: date=Fri, 11 Nov 2018 23:59:59 GMT
+]]></artwork></figure>
+
+<t>Date could be in future too. If the value of <spanx style="verb">date</spanx> is in future, it means that the resource will be deprecated on the given date in future.</t>
+
+</section>
+<section anchor="sunset-optional" title="Sunset (optional)">
+
+<t>The value for <spanx style="verb">sunset</spanx> property would be an HTTP-date timestamp, as defined in Section 7.1.1.1 of <xref target="RFC7231"/>. This information provided as a hint and allows a service to communicate the fact that a resource is expected to become unresponsive at a specific point in time.</t>
+
+<t>Following example indicates that the resource in context has been deprecated since version v2 and its sunset date is Friday, November 11, 2020 at 23:59:59 GMT.</t>
+
+<figure><artwork><![CDATA[
+Deprecation: version=v2; sunset=Fri, 11 Nov 2020 23:59:59 GMT
+]]></artwork></figure>
+
+<t>Following example shows that the resource in context has been deprecated since Friday, November 11, 2018 at 23:59:59 GMT and its sunset date is Friday, November 11, 2020 at 23:59:59 GMT.</t>
+
+<figure><artwork><![CDATA[
+Deprecation: date=Fri, 11 Nov 2018 23:59:59 GMT; sunset=Fri, 11 Nov 2020 23:59:59 GMT    
+]]></artwork></figure>
+
+</section>
 </section>
 <section anchor="associated-link-header" title="Associated Link Header">
 
 <t><spanx style="verb">Link</spanx> header as defined in <xref target="RFC8288"/> could be used in addition to the Deprecation header to inform the applications about alternates to the deprecated resource as needed. Following relationship types as defined in <xref target="RFC5988"/> might be appropriate to use in such cases.</t>
 
 <t><list style="symbols">
-  <t>successor-version: Points to a resource containing the successor version. <xref target="RFC5829"/></t>
-  <t>latest-version: Points to a resource containing the latest (e.g., current) version. <xref target="RFC5829"/></t>
-  <t>alternate: Designates a substitute. [W3C.REC-html401-19991224]</t>
+  <t><spanx style="verb">successor-version</spanx>: Points to a resource containing the successor version. <xref target="RFC5829"/></t>
+  <t><spanx style="verb">latest-version</spanx>: Points to a resource containing the latest (e.g., current) version. <xref target="RFC5829"/></t>
+  <t><spanx style="verb">alternate</spanx>: Designates a substitute. [W3C.REC-html401-19991224]</t>
 </list></t>
 
 <t>Following example provides link to the successor version of the v1 version of <spanx style="verb">customer</spanx> resource that is deprecated.</t>
 
 <figure><artwork><![CDATA[
-Deprecation: v2
+Deprecation: version=v1
 Link: https://api.example.com/v2/customers; rel=successor-version
 ]]></artwork></figure>
 
 <t>This example provides link to an alternate resource to the <spanx style="verb">customer</spanx> resource that is deprecated.</t>
 
 <figure><artwork><![CDATA[
-Deprecation: 2018-11-11
+Deprecation: version=2018-11-11
 Link: https://api.example.com/v1/clients; rel=alternate
 ]]></artwork></figure>
 
@@ -150,15 +167,15 @@ Link: https://api.example.com/v1/clients; rel=alternate
 <t>The <spanx style="verb">Deprecation</spanx> response header should be added to the permanent registry of message header fields (see <xref target="RFC3864"/>), taking into account the guidelines given by HTTP/1.1 <xref target="RFC7231"/>.</t>
 
 <figure><artwork><![CDATA[
-    Header Field Name: Deprecation
-    
-    Applicable Protocol: Hypertext Transfer Protocol (HTTP)
+Header Field Name: Deprecation
 
-    Status: Informational
-    
-    Author/Change controller: IETF
-    
-    Specification document(s): RFC XXXX
+Applicable Protocol: Hypertext Transfer Protocol (HTTP)
+
+Status: Informational
+
+Author/Change controller: IETF
+
+Specification document(s): RFC XXXX
 ]]></artwork></figure>
 
 </section>
@@ -167,11 +184,11 @@ Link: https://api.example.com/v1/clients; rel=alternate
 <t>The <spanx style="verb">deprecation</spanx> link relation type should be added to the permanent registry of link relation types according to Section 4.2 of <xref target="RFC8288"/>:</t>
 
 <figure><artwork><![CDATA[
-    Relation Name: deprecation
-    
-    Description: ...
-    
-    Reference: RFC XXXX
+Relation Name: deprecation
+
+Description: ...
+
+Reference: RFC XXXX
 ]]></artwork></figure>
 
 </section>
@@ -186,19 +203,26 @@ other implementations may exist.</t>
 <t>According to RFC 6982, “this will allow reviewers and working groups to assign due consideration to documents that have the benefit of running code, which may serve as evidence of valuable experimentation and feedback that have made the implemented protocols more mature. It is up to the individual working groups to use this information as they see fit”.</t>
 
 <figure><artwork><![CDATA[
-    Organization: PayPal
-    
-    Name: PayPal as a Service, PayPal's API Style Guide - https://github.com/paypal/api-standards/blob/master/api-style-guide.md, deprecation https://github.com/paypal/api-standards/blob/master/api-style-guide.md#runtime 
-    
-    Licensing: OpenSource (https://www.paypal-engineering.com/2017/09/)
-    
-    Description: PayPal began the journey to transform all of PayPal’s core capabilities into a platform of discoverable, well-encapsulated, reusable API-driven products few years back. PayPal as a Service (PPaaS) is a micro service platform offering a portfolio of 150+ RESTful APIs for use by internal and external developers to access several PayPal capabilities. These APIs are used by applications including but not limited to build.com, Uber, eBay, Venmo, Braintree, Samsung, and numerous internal PayPal applications. 
-    
-    Maturity: Production (internal and external APIs). 
-    
-    Coverage: HTTP 1.1, HTTP Header
-    
-    Contact: Nikhil Kolekar (nikhil.kolekar@gmail.com)
+Organization: PayPal
+
+Name: PayPal API Guidelines
+
+Licensing: OpenSource (https://www.paypal-engineering.com/2017/09/)
+
+Description: PayPal core capabilities are available from a 
+platform of discoverable, well-encapsulated, reusable API-driven 
+products. PayPal as a Service (PPaaS) is a micro service platform 
+offering a portfolio of 150+ RESTful APIs for use by internal and 
+external developers to access several PayPal capabilities. These 
+APIs are used by applications including but not limited to 
+build.com, Uber, eBay, Venmo, Braintree, Samsung, and numerous 
+internal PayPal applications. 
+
+Maturity: Production (internal and external APIs). 
+
+Coverage: HTTP Header for deprecation
+
+Contact: Nikhil Kolekar (nikhil.kolekar@gmail.com)
 ]]></artwork></figure>
 
 </section>
@@ -212,20 +236,20 @@ other implementations may exist.</t>
 <t>Just deprecation header without any Link headers.</t>
 
 <figure><artwork><![CDATA[
-Deprecation: v2
+Deprecation: version=v1
 ]]></artwork></figure>
 
 <t>Deprecation header with link to the successor version.</t>
 
 <figure><artwork><![CDATA[
-Deprecation: v2
+Deprecation: version=v1
 Link: https://api.example.com/v2/customers; rel=successor-version
 ]]></artwork></figure>
 
-<t>Deprecation header with links for the successor version and for the API developer’s depercation policy. Also, it shows <spanx style="verb">sunset</spanx> date for the deprecated version (<spanx style="verb">v1</spanx>);</t>
+<t>Deprecation header with links for the successor version and for the API developer’s deprecation policy. Also, it shows <spanx style="verb">sunset</spanx> date for the deprecated version (v1);</t>
 
 <figure><artwork><![CDATA[
-Deprecation: v2; sunset=Fri, 11 Nov 2020 23:59:59 GMT
+Deprecation: version=v1; sunset=Fri, 11 Nov 2020 23:59:59 GMT
 Link: https://api.example.com/v2/customers; rel=successor-version
 Link: https://developer.example.com/deprecation; rel=deprecation
 ]]></artwork></figure>
@@ -347,17 +371,6 @@ Link: https://developer.example.com/deprecation; rel=deprecation
 
     <references title='Informative References'>
 
-<reference anchor="REST" target="http://www.ics.uci.edu/~fielding/pubs/dissertation/fielding_dissertation.pdf">
-  <front>
-    <title>Architectural Styles and the Design of Network-based Software Architectures</title>
-    <author initials="R." surname="Fielding" fullname="Roy Thomas Fielding">
-      <organization>University of California, Irvine</organization>
-    </author>
-    <date year="2000"/>
-  </front>
-  <seriesInfo name="Ph.D." value="Dissertation, University of California, Irvine"/>
-  <format type="PDF" target="http://www.ics.uci.edu/~fielding/pubs/dissertation/fielding_dissertation.pdf"/>
-</reference>
 <reference anchor="Deprecation" target="http://openjdk.java.net/jeps/277">
   <front>
     <title>JEP 277 - Enhanced Deprecation</title>
@@ -399,94 +412,86 @@ Link: https://developer.example.com/deprecation; rel=deprecation
   </back>
 
 <!-- ##markdown-source:
-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
-JmvWorLWhBzD5No59mLs83/JUwBDWycAAA==
+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
+EfVPaWkgQxG1h/U0ljW2U8vCFBReDGUaPfU711sUboahAR+hiVvqe11JUcPb
+lLXBvq0nJZDmWN2kvYrFWonSefOlNPimNxOOCfCysu5YejSnk4VMjNfEQuqE
+Q9MWxvjbiEYkVZLaPDr0hiOe4zGnjBe6Goc3eg4MD6c2SaUSCnwP9QPzp12v
+JuchAPXEHgODG0/uzuAOC62WfBgEWhrLMXtmTZm7GiwzRLLSS9ikIP6wUYW3
+qt+Yy4Xv6SYqg6Pw8M2WGddykYlVr5oJEpucaKluVVSCUO+BxdTDso6o+bO6
+RQqxNkUhPJHRfeesFFryhq4VAT3Vzup89k1ZqTzTgOBlXsfHDiy3habMX2w2
+udL50TBlOki3F1bx8I2dyUz/pyp0ruXqups4fJD0T8Xp9aX4scl+7aJXaI4z
+x9/Q3wDHY19d7dd10XK5DHO5ymXSV9kMW6GcbMYlEn3SPDw6OTz4ROytDo5I
+FZHM5UQnmgagHloNKPlTlPT7c4T3etzDn67gUbQI5lMJcQA6rqTCPO4BPqVj
+ChCtH1tO556K/4QHNFcs8GhgXA0C9q+vpRwf+O91qY6saWYEzfFMxkynLCxF
+R/j7FJWSIcYG3xz9WdxcjG+nJavV8eiD7DZZ+W8C9GGDcOM/kL+vnnQ+m/mq
+BKENR5OISaOsjp74Ixmo+iKAziHFcSc4Wa03duigk5I9DsGDo0KiU12NMHj/
+pNRJTGbribcTKjnVc2qWf1ZZanriuUXfU1gFRY9likZ35oNMRl+UDdJU9RsB
+lSS1WjsshKJFwWvCvS5WIyp3qo+pYn9NM41SSK6D7uYztvkMwO380gZreGe2
+P6OeLSpG4krfz3Ui/mYSdS+t2M/4Prz39z/M6NcUSP6Duj2neoPZ3Kpvu5Uw
+LbzwfUEQ/EQxN95uuZcaFRp11sg5XEz55+4h4+EdHTyR+3zH9//r2r7Io2s+
+sW/3pRw7q7cUfxoP+OPOJkScJs7w1NJPkpppIo94dnzJr8/ZXwwOvtv9GyMd
+tXzFcOv3Ud46lUb4NVodNXhSXZT730+gzMM4PI2oVExUPOPMF3wYwT/hzCp+
+tjeViVN7H4EL/rLOLYOjNkjxV8R6esmxZcW6VNaaKvWaVDvHXoxz/gvUBARN
+ViUAAA==
 
 -->
 

@@ -192,8 +192,12 @@ According to RFC 6982, "this will allow reviewers and working groups to assign d
 
 # Security Considerations
 
-TBD: Erik?
+The content of a `Link` header field is not secure, private or integrity-guaranteed, and due caution should be exercised when using it. Use of Transport Layer Security (TLS) with HTTP ({{!RFC2818}} and {{!RFC2817}}) is currently the only end-to-end way to provide such protection.
 
+The suggested `Link` header fields make extensive use of IRIs and URIs. See {{!RFC3987}} for security considerations relating to IRIs. See {{!RFC3986}} for security considerations relating to URIs. See {{!RFC2616}} for security considerations relating to HTTP headers.
+
+Applications that take advantage of typed links should consider the attack vectors opened by automatically following, trusting, or otherwise using links gathered from the HTTP headers. In particular, Link headers that use the `successor-version`, `latest-version` or `alternate` relation types should be treated with due caution. See {{!RFC5829}} for security considerations relating to these link relation types.
+   
 
 
 # Example

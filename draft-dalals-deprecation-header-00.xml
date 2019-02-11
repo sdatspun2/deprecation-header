@@ -34,7 +34,7 @@
       </address>
     </author>
 
-    <date year="2019" month="February" day="05"/>
+    <date year="2019" month="February" day="11"/>
 
     
     
@@ -228,7 +228,11 @@ Contact: Nikhil Kolekar (nikhil.kolekar@gmail.com)
 </section>
 <section anchor="security-considerations" title="Security Considerations">
 
-<t>TBD: Erik?</t>
+<t>The content of a <spanx style="verb">Link</spanx> header field is not secure, private or integrity-guaranteed, and due caution should be exercised when using it. Use of Transport Layer Security (TLS) with HTTP (<xref target="RFC2818"/> and <xref target="RFC2817"/>) is currently the only end-to-end way to provide such protection.</t>
+
+<t>The suggested <spanx style="verb">Link</spanx> header fields make extensive use of IRIs and URIs. See <xref target="RFC3987"/> for security considerations relating to IRIs. See <xref target="RFC3986"/> for security considerations relating to URIs. See <xref target="RFC2616"/> for security considerations relating to HTTP headers.</t>
+
+<t>Applications that take advantage of typed links should consider the attack vectors opened by automatically following, trusting, or otherwise using links gathered from the HTTP headers. In particular, Link headers that use the <spanx style="verb">successor-version</spanx>, <spanx style="verb">latest-version</spanx> or <spanx style="verb">alternate</spanx> relation types should be treated with due caution. See <xref target="RFC5829"/> for security considerations relating to these link relation types.</t>
 
 </section>
 <section anchor="example" title="Example">
@@ -366,6 +370,82 @@ Link: https://developer.example.com/deprecation; rel=deprecation
 
 
 
+<reference  anchor="RFC2818" target='https://www.rfc-editor.org/info/rfc2818'>
+<front>
+<title>HTTP Over TLS</title>
+<author initials='E.' surname='Rescorla' fullname='E. Rescorla'><organization /></author>
+<date year='2000' month='May' />
+<abstract><t>This memo describes how to use Transport Layer Security (TLS) to secure Hypertext Transfer Protocol (HTTP) connections over the Internet.  This memo provides information for the Internet community.</t></abstract>
+</front>
+<seriesInfo name='RFC' value='2818'/>
+<seriesInfo name='DOI' value='10.17487/RFC2818'/>
+</reference>
+
+
+
+<reference  anchor="RFC2817" target='https://www.rfc-editor.org/info/rfc2817'>
+<front>
+<title>Upgrading to TLS Within HTTP/1.1</title>
+<author initials='R.' surname='Khare' fullname='R. Khare'><organization /></author>
+<author initials='S.' surname='Lawrence' fullname='S. Lawrence'><organization /></author>
+<date year='2000' month='May' />
+<abstract><t>This memo explains how to use the Upgrade mechanism in HTTP/1.1 to initiate Transport Layer Security (TLS) over an existing TCP connection. [STANDARDS-TRACK]</t></abstract>
+</front>
+<seriesInfo name='RFC' value='2817'/>
+<seriesInfo name='DOI' value='10.17487/RFC2817'/>
+</reference>
+
+
+
+<reference  anchor="RFC3987" target='https://www.rfc-editor.org/info/rfc3987'>
+<front>
+<title>Internationalized Resource Identifiers (IRIs)</title>
+<author initials='M.' surname='Duerst' fullname='M. Duerst'><organization /></author>
+<author initials='M.' surname='Suignard' fullname='M. Suignard'><organization /></author>
+<date year='2005' month='January' />
+<abstract><t>This document defines a new protocol element, the Internationalized  Resource Identifier (IRI), as a complement of the Uniform Resource  Identifier (URI). An IRI is a sequence of characters from the  Universal Character Set (Unicode/ISO 10646). A mapping from IRIs to   URIs is defined, which means that IRIs can be used instead of URIs,  where appropriate, to identify resources.</t><t> The approach of defining a new protocol element was chosen instead of extending or changing the definition of URIs.  This was done in order  to allow a clear distinction and to avoid incompatibilities with  existing software. Guidelines are provided for the use and deployment of IRIs in various protocols, formats, and software components that currently deal with URIs.</t></abstract>
+</front>
+<seriesInfo name='RFC' value='3987'/>
+<seriesInfo name='DOI' value='10.17487/RFC3987'/>
+</reference>
+
+
+
+<reference  anchor="RFC3986" target='https://www.rfc-editor.org/info/rfc3986'>
+<front>
+<title>Uniform Resource Identifier (URI): Generic Syntax</title>
+<author initials='T.' surname='Berners-Lee' fullname='T. Berners-Lee'><organization /></author>
+<author initials='R.' surname='Fielding' fullname='R. Fielding'><organization /></author>
+<author initials='L.' surname='Masinter' fullname='L. Masinter'><organization /></author>
+<date year='2005' month='January' />
+<abstract><t>A Uniform Resource Identifier (URI) is a compact sequence of characters that identifies an abstract or physical resource.  This specification defines the generic URI syntax and a process for resolving URI references that might be in relative form, along with guidelines and security considerations for the use of URIs on the Internet.  The URI syntax defines a grammar that is a superset of all valid URIs, allowing an implementation to parse the common components of a URI reference without knowing the scheme-specific requirements of every possible identifier.  This specification does not define a generative grammar for URIs; that task is performed by the individual specifications of each URI scheme.  [STANDARDS-TRACK]</t></abstract>
+</front>
+<seriesInfo name='STD' value='66'/>
+<seriesInfo name='RFC' value='3986'/>
+<seriesInfo name='DOI' value='10.17487/RFC3986'/>
+</reference>
+
+
+
+<reference  anchor="RFC2616" target='https://www.rfc-editor.org/info/rfc2616'>
+<front>
+<title>Hypertext Transfer Protocol -- HTTP/1.1</title>
+<author initials='R.' surname='Fielding' fullname='R. Fielding'><organization /></author>
+<author initials='J.' surname='Gettys' fullname='J. Gettys'><organization /></author>
+<author initials='J.' surname='Mogul' fullname='J. Mogul'><organization /></author>
+<author initials='H.' surname='Frystyk' fullname='H. Frystyk'><organization /></author>
+<author initials='L.' surname='Masinter' fullname='L. Masinter'><organization /></author>
+<author initials='P.' surname='Leach' fullname='P. Leach'><organization /></author>
+<author initials='T.' surname='Berners-Lee' fullname='T. Berners-Lee'><organization /></author>
+<date year='1999' month='June' />
+<abstract><t>HTTP has been in use by the World-Wide Web global information initiative since 1990. This specification defines the protocol referred to as &quot;HTTP/1.1&quot;, and is an update to RFC 2068.  [STANDARDS-TRACK]</t></abstract>
+</front>
+<seriesInfo name='RFC' value='2616'/>
+<seriesInfo name='DOI' value='10.17487/RFC2616'/>
+</reference>
+
+
+
 
     </references>
 
@@ -412,86 +492,93 @@ Link: https://developer.example.com/deprecation; rel=deprecation
   </back>
 
 <!-- ##markdown-source:
-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
-EfVPaWkgQxG1h/U0ljW2U8vCFBReDGUaPfU711sUboahAR+hiVvqe11JUcPb
-lLXBvq0nJZDmWN2kvYrFWonSefOlNPimNxOOCfCysu5YejSnk4VMjNfEQuqE
-Q9MWxvjbiEYkVZLaPDr0hiOe4zGnjBe6Goc3eg4MD6c2SaUSCnwP9QPzp12v
-JuchAPXEHgODG0/uzuAOC62WfBgEWhrLMXtmTZm7GiwzRLLSS9ikIP6wUYW3
-qt+Yy4Xv6SYqg6Pw8M2WGddykYlVr5oJEpucaKluVVSCUO+BxdTDso6o+bO6
-RQqxNkUhPJHRfeesFFryhq4VAT3Vzup89k1ZqTzTgOBlXsfHDiy3habMX2w2
-udL50TBlOki3F1bx8I2dyUz/pyp0ruXqups4fJD0T8Xp9aX4scl+7aJXaI4z
-x9/Q3wDHY19d7dd10XK5DHO5ymXSV9kMW6GcbMYlEn3SPDw6OTz4ROytDo5I
-FZHM5UQnmgagHloNKPlTlPT7c4T3etzDn67gUbQI5lMJcQA6rqTCPO4BPqVj
-ChCtH1tO556K/4QHNFcs8GhgXA0C9q+vpRwf+O91qY6saWYEzfFMxkynLCxF
-R/j7FJWSIcYG3xz9WdxcjG+nJavV8eiD7DZZ+W8C9GGDcOM/kL+vnnQ+m/mq
-BKENR5OISaOsjp74Ixmo+iKAziHFcSc4Wa03duigk5I9DsGDo0KiU12NMHj/
-pNRJTGbribcTKjnVc2qWf1ZZanriuUXfU1gFRY9likZ35oNMRl+UDdJU9RsB
-lSS1WjsshKJFwWvCvS5WIyp3qo+pYn9NM41SSK6D7uYztvkMwO380gZreGe2
-P6OeLSpG4krfz3Ui/mYSdS+t2M/4Prz39z/M6NcUSP6Duj2neoPZ3Kpvu5Uw
-LbzwfUEQ/EQxN95uuZcaFRp11sg5XEz55+4h4+EdHTyR+3zH9//r2r7Io2s+
-sW/3pRw7q7cUfxoP+OPOJkScJs7w1NJPkpppIo94dnzJr8/ZXwwOvtv9GyMd
-tXzFcOv3Ud46lUb4NVodNXhSXZT730+gzMM4PI2oVExUPOPMF3wYwT/hzCp+
-tjeViVN7H4EL/rLOLYOjNkjxV8R6esmxZcW6VNaaKvWaVDvHXoxz/gvUBARN
-ViUAAA==
+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
 
 -->
 

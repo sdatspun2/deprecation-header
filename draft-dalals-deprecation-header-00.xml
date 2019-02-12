@@ -34,7 +34,7 @@
       </address>
     </author>
 
-    <date year="2019" month="February" day="11"/>
+    <date year="2019" month="February" day="12"/>
 
     
     
@@ -71,9 +71,9 @@
 
 <t>The <spanx style="verb">Deprecation</spanx> HTTP response header allows a server to communicate to a client that the URI-identified resource involved in a request and/or response is deprecated. It could also provide information that the resource is deprecated since which version and optionally when it is expected to become unresponsive.</t>
 
-<section anchor="syntax" title="Syntax">
+<section anchor="members-of-deprecation-header" title="Members of Deprecation Header">
 
-<t>The value of <spanx style="verb">Deprecation</spanx> header could consist of at most 3 properties: <spanx style="verb">date</spanx>, <spanx style="verb">version</spanx> and <spanx style="verb">sunset</spanx>. Either <spanx style="verb">version</spanx> or <spanx style="verb">date</spanx> is REQUIRED, <spanx style="verb">sunset</spanx> is OPTIONAL.</t>
+<t>The value of <spanx style="verb">Deprecation</spanx> header could consist of at most 3 standard properties: <spanx style="verb">date</spanx>, <spanx style="verb">version</spanx> and <spanx style="verb">sunset</spanx>. Either <spanx style="verb">version</spanx> or <spanx style="verb">date</spanx> is REQUIRED, <spanx style="verb">sunset</spanx> is OPTIONAL.</t>
 
 <figure><artwork><![CDATA[
 Deprecation: version=<version>; date=<date>; sunset=<sunset date>;
@@ -127,9 +127,36 @@ Deprecation: date=Fri, 11 Nov 2018 23:59:59 GMT; sunset=Fri, 11 Nov 2020 23:59:5
 
 </section>
 </section>
-<section anchor="associated-link-header" title="Associated Link Header">
+<section anchor="extensions" title="Extensions">
 
-<t><spanx style="verb">Link</spanx> header as defined in <xref target="RFC8288"/> could be used in addition to the Deprecation header to inform the applications about alternates to the deprecated resource as needed. Following relationship types as defined in <xref target="RFC5988"/> might be appropriate to use in such cases.</t>
+<t>(This section is added to address issue: https://github.com/sdatspun2/deprecation-header/issues/4)</t>
+
+<t>Deprecation header value could be extended with additional properties. For example, to further qualify deprecated element(s) in a call to the resource in context, a resource developer decides to add a property named <spanx style="verb">scope</spanx> with following possible values. The resource developer would be responsible to provide documentation explaining the semantics of <spanx style="verb">scope</spanx>.</t>
+
+<t><list style="symbols">
+  <t>query - indicates one or more query parameter(s) is deprecated</t>
+  <t>request-header - indicates one or more HTTP request header(s) is deprecated</t>
+  <t>response-header - indicates one or more HTTP response header(s) is deprecated</t>
+  <t>request-body - indicates request body/payload contains one or more deprecated element(s)/property(s)</t>
+  <t>response-body - indicates response body/payload contains one or more deprecated element(s)/property(s)</t>
+</list></t>
+
+<t>Following example shows that the resource in context has been deprecated since version v2 and one or more query parameter(s) is deprecated.</t>
+
+<figure><artwork><![CDATA[
+Deprecation: version=v2; scope=query
+]]></artwork></figure>
+
+<t>Following example shows that the resource in context has been deprecated since version v2 and more specifically one or more query parameter(s) and one or more element(s)/property(s) in response body are deprecated.</t>
+
+<figure><artwork><![CDATA[
+Deprecation: version=v2; scope=query,response-body
+]]></artwork></figure>
+
+</section>
+<section anchor="recommend-replacement" title="Recommend Replacement">
+
+<t><spanx style="verb">Link</spanx> header as defined in <xref target="RFC8288"/> could be used in addition to the Deprecation header to recommend the applications about alternates to the deprecated resource. Following relationship types as defined in <xref target="RFC5988"/> might be appropriate to use in such cases.</t>
 
 <t><list style="symbols">
   <t><spanx style="verb">successor-version</spanx>: Points to a resource containing the successor version. <xref target="RFC5829"/></t>
@@ -492,93 +519,100 @@ Link: https://developer.example.com/deprecation; rel=deprecation
   </back>
 
 <!-- ##markdown-source:
-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
+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
 
 -->
 

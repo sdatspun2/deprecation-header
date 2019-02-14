@@ -54,13 +54,13 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 
 
-# The Deprecation HTTP Response Header
+# The Deprecation HTTP Response Header Field
 
-The `Deprecation` HTTP response header allows a server to communicate to a client that the URI-identified resource involved in a request and/or response is deprecated. It could also provide information that the resource is deprecated since which version and optionally when it is expected to become unresponsive. 
+The `Deprecation` HTTP response header field allows a server to communicate to a client that the URI-identified resource involved in a request and/or response is deprecated. It could also provide information that the resource is deprecated since which version and optionally when it is expected to become unresponsive. 
 
-## Members of Deprecation Header
+## Members of Deprecation Header Field
 
-The value of `Deprecation` header could consist of at most 3 standard properties: `date`, `version` and `sunset`. Either `version` or `date` is REQUIRED, `sunset` is OPTIONAL.
+The value of `Deprecation` header field could consist of at most 3 standard properties: `date`, `version` and `sunset` as shown below. Either `version` or `date` is REQUIRED, `sunset` is OPTIONAL.
 
     Deprecation: version=<version>; date=<date>; sunset=<sunset date>;
     
@@ -100,30 +100,29 @@ Following example shows that the resource in context has been deprecated since F
     Deprecation: date=Fri, 11 Nov 2018 23:59:59 GMT; sunset=Fri, 11 Nov 2020 23:59:59 GMT    
     
 
-## Extensions
+## More Information
 
-(This section is added to address issue: https://github.com/sdatspun2/deprecation-header/issues/4)
+For a URI-identified resource, deprecation could involve one or more parts of request, response or both. These parts could be: 
 
-Deprecation header value could be extended with additional properties. For example, to further qualify deprecated element(s) in a call to the resource in context, a resource developer decides to add a property named `scope` with following possible values. The resource developer would be responsible to provide documentation explaining the semantics of `scope`. 
+* URI - deprecation of one ore more query parameter(s) or path element(s)
+* method - HTTP method for the resource is deprecated
+* request header - one or more HTTP request header(s) is deprecated
+* response header - HTTP response header(s) is deprecated
+* request body - request body contains one or more deprecated element(s)
+* response body - response body contains one or more deprecated element(s)
 
-* query - indicates one or more query parameter(s) is deprecated
-* request-header - indicates one or more HTTP request header(s) is deprecated
-* response-header - indicates one or more HTTP response header(s) is deprecated
-* request-body - indicates request body/payload contains one or more deprecated element(s)/property(s)
-* response-body - indicates response body/payload contains one or more deprecated element(s)/property(s)
+The purpose of the `Deprecation` header is to provide just enough "hints" about deprecation to the client application developer. It is safe to assume that on reception of the `Deprecation` header, the client developer would try to look for documentation related to deprecation of the resource. 
 
-Following example shows that the resource in context has been deprecated since version v2 and one or more query parameter(s) is deprecated.
+In order to improve the client developer's experience, the resource developer could provide a link to the documentation using a `Link` header {{!RFC8288}} with relationship type `describedby` {{http://www.w3.org/TR/powder-dr/#assoc-linking}} as shown below. Here, it is assumed that the content present at `https://developer.example.com/v1/customers` is properly annotated to show deprecation of the relevant parts.
 
-    Deprecation: version=v2; scope=query
 
-Following example shows that the resource in context has been deprecated since version v2 and more specifically one or more query parameter(s) and one or more element(s)/property(s) in response body are deprecated. 
-
-    Deprecation: version=v2; scope=query,response-body
+    Deprecation: version=v1
+    Link: https://developer.example.com/v1/customers; rel=describedby type=text/html
 
 
 ## Recommend Replacement
 
-`Link` header as defined in {{!RFC8288}} could be used in addition to the Deprecation header to recommend the applications about alternates to the deprecated resource. Following relationship types as defined in {{!RFC5988}} might be appropriate to use in such cases.
+`Link` header could be used in addition to the `Deprecation` header to recommend the client application about available alternates to the deprecated resource. Following relationship types as defined in {{!RFC5988}} are RECOMMENDED to use for the purpose.
 
 * `successor-version`: Points to a resource containing the successor version. {{!RFC5829}}
 * `latest-version`: Points to a resource containing the latest (e.g., current) version. {{!RFC5829}}
@@ -246,6 +245,6 @@ Deprecation header with links for the successor version and for the API develope
 # Acknowledgments
 {:numbered="false"}
 
- The authors take all responsibility for errors and omissions.
+The authors would like to thank Mark Nottingham, Nikhil Kolekar, ... for review of this specification. The authors take all responsibility for errors and omissions.
 
 

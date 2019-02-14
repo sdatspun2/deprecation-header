@@ -5,7 +5,7 @@
 Network Working Group                                           S. Dalal
 Internet-Draft
 Intended status: Standards Track                                E. Wilde
-Expires: August 16, 2019                               February 12, 2019
+Expires: August 17, 2019                               February 13, 2019
 
 
                       The Deprecation HTTP Header
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on August 16, 2019.
+   This Internet-Draft will expire on August 17, 2019.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Dalal & Wilde            Expires August 16, 2019                [Page 1]
+Dalal & Wilde            Expires August 17, 2019                [Page 1]
 
 Internet-Draft         The Deprecation HTTP Header         February 2019
 
@@ -65,12 +65,12 @@ Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
      1.1.  Notational Conventions  . . . . . . . . . . . . . . . . .   3
-   2.  The Deprecation HTTP Response Header  . . . . . . . . . . . .   3
-     2.1.  Members of Deprecation Header . . . . . . . . . . . . . .   3
+   2.  The Deprecation HTTP Response Header Field  . . . . . . . . .   3
+     2.1.  Members of Deprecation Header Field . . . . . . . . . . .   3
        2.1.1.  Version . . . . . . . . . . . . . . . . . . . . . . .   3
        2.1.2.  Date  . . . . . . . . . . . . . . . . . . . . . . . .   3
        2.1.3.  Sunset (optional) . . . . . . . . . . . . . . . . . .   4
-     2.2.  Extensions  . . . . . . . . . . . . . . . . . . . . . . .   4
+     2.2.  More Information  . . . . . . . . . . . . . . . . . . . .   4
      2.3.  Recommend Replacement . . . . . . . . . . . . . . . . . .   5
    3.  The Deprecation Link Relation Type  . . . . . . . . . . . . .   6
    4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   6
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Dalal & Wilde            Expires August 16, 2019                [Page 2]
+Dalal & Wilde            Expires August 17, 2019                [Page 2]
 
 Internet-Draft         The Deprecation HTTP Header         February 2019
 
@@ -122,19 +122,19 @@ Internet-Draft         The Deprecation HTTP Header         February 2019
    14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-2.  The Deprecation HTTP Response Header
+2.  The Deprecation HTTP Response Header Field
 
-   The "Deprecation" HTTP response header allows a server to communicate
-   to a client that the URI-identified resource involved in a request
-   and/or response is deprecated.  It could also provide information
-   that the resource is deprecated since which version and optionally
-   when it is expected to become unresponsive.
+   The "Deprecation" HTTP response header field allows a server to
+   communicate to a client that the URI-identified resource involved in
+   a request and/or response is deprecated.  It could also provide
+   information that the resource is deprecated since which version and
+   optionally when it is expected to become unresponsive.
 
-2.1.  Members of Deprecation Header
+2.1.  Members of Deprecation Header Field
 
-   The value of "Deprecation" header could consist of at most 3 standard
-   properties: "date", "version" and "sunset".  Either "version" or
-   "date" is REQUIRED, "sunset" is OPTIONAL.
+   The value of "Deprecation" header field could consist of at most 3
+   standard properties: "date", "version" and "sunset" as shown below.
+   Either "version" or "date" is REQUIRED, "sunset" is OPTIONAL.
 
    Deprecation: version=<version>; date=<date>; sunset=<sunset date>;
 
@@ -165,7 +165,7 @@ Internet-Draft         The Deprecation HTTP Header         February 2019
 
 
 
-Dalal & Wilde            Expires August 16, 2019                [Page 3]
+Dalal & Wilde            Expires August 17, 2019                [Page 3]
 
 Internet-Draft         The Deprecation HTTP Header         February 2019
 
@@ -199,58 +199,56 @@ Internet-Draft         The Deprecation HTTP Header         February 2019
 
 Deprecation: date=Fri, 11 Nov 2018 23:59:59 GMT; sunset=Fri, 11 Nov 2020 23:59:59 GMT
 
-2.2.  Extensions
+2.2.  More Information
 
-   (This section is added to address issue:
-   https://github.com/sdatspun2/deprecation-header/issues/4)
+   For a URI-identified resource, deprecation could involve one or more
+   parts of request, response or both.  These parts could be:
 
-   Deprecation header value could be extended with additional
-   properties.  For example, to further qualify deprecated element(s) in
-   a call to the resource in context, a resource developer decides to
-   add a property named "scope" with following possible values.  The
-   resource developer would be responsible to provide documentation
-   explaining the semantics of "scope".
+   o  URI - deprecation of one ore more query parameter(s) or path
+      element(s)
 
-   o  query - indicates one or more query parameter(s) is deprecated
+   o  method - HTTP method for the resource is deprecated
 
-   o  request-header - indicates one or more HTTP request header(s) is
-      deprecated
+   o  request header - one or more HTTP request header(s) is deprecated
 
-   o  response-header - indicates one or more HTTP response header(s) is
-      deprecated
+   o  response header - HTTP response header(s) is deprecated
+
+   o  request body - request body contains one or more deprecated
+      element(s)
+
+   o  response body - response body contains one or more deprecated
+      element(s)
 
 
 
-Dalal & Wilde            Expires August 16, 2019                [Page 4]
+Dalal & Wilde            Expires August 17, 2019                [Page 4]
 
 Internet-Draft         The Deprecation HTTP Header         February 2019
 
 
-   o  request-body - indicates request body/payload contains one or more
-      deprecated element(s)/property(s)
+   The purpose of the "Deprecation" header is to provide just enough
+   "hints" about deprecation to the client application developer.  It is
+   safe to assume that on reception of the "Deprecation" header, the
+   client developer would try to look for documentation related to
+   deprecation of the resource.
 
-   o  response-body - indicates response body/payload contains one or
-      more deprecated element(s)/property(s)
+   In order to improve the client developer's experience, the resource
+   developer could provide a link to the documentation using a "Link"
+   header [RFC8288] with relationship type "describedby"
+   <http://www.w3.org/TR/powder-dr/#assoc-linking> as shown below.
+   Here, it is assumed that the content present at
+   "https://developer.example.com/v1/customers" is properly annotated to
+   show deprecation of the relevant parts.
 
-   Following example shows that the resource in context has been
-   deprecated since version v2 and one or more query parameter(s) is
-   deprecated.
-
-   Deprecation: version=v2; scope=query
-
-   Following example shows that the resource in context has been
-   deprecated since version v2 and more specifically one or more query
-   parameter(s) and one or more element(s)/property(s) in response body
-   are deprecated.
-
-   Deprecation: version=v2; scope=query,response-body
+Deprecation: version=v1
+Link: https://developer.example.com/v1/customers; rel=describedby type=text/html
 
 2.3.  Recommend Replacement
 
-   "Link" header as defined in [RFC8288] could be used in addition to
-   the Deprecation header to recommend the applications about alternates
-   to the deprecated resource.  Following relationship types as defined
-   in [RFC5988] might be appropriate to use in such cases.
+   "Link" header could be used in addition to the "Deprecation" header
+   to recommend the client application about available alternates to the
+   deprecated resource.  Following relationship types as defined in
+   [RFC5988] are RECOMMENDED to use for the purpose.
 
    o  "successor-version": Points to a resource containing the successor
       version.  [RFC5829]
@@ -277,7 +275,9 @@ Internet-Draft         The Deprecation HTTP Header         February 2019
 
 
 
-Dalal & Wilde            Expires August 16, 2019                [Page 5]
+
+
+Dalal & Wilde            Expires August 17, 2019                [Page 5]
 
 Internet-Draft         The Deprecation HTTP Header         February 2019
 
@@ -333,7 +333,7 @@ Internet-Draft         The Deprecation HTTP Header         February 2019
 
 
 
-Dalal & Wilde            Expires August 16, 2019                [Page 6]
+Dalal & Wilde            Expires August 17, 2019                [Page 6]
 
 Internet-Draft         The Deprecation HTTP Header         February 2019
 
@@ -389,7 +389,7 @@ Internet-Draft         The Deprecation HTTP Header         February 2019
 
 
 
-Dalal & Wilde            Expires August 16, 2019                [Page 7]
+Dalal & Wilde            Expires August 17, 2019                [Page 7]
 
 Internet-Draft         The Deprecation HTTP Header         February 2019
 
@@ -445,7 +445,7 @@ Internet-Draft         The Deprecation HTTP Header         February 2019
 
 
 
-Dalal & Wilde            Expires August 16, 2019                [Page 8]
+Dalal & Wilde            Expires August 17, 2019                [Page 8]
 
 Internet-Draft         The Deprecation HTTP Header         February 2019
 
@@ -501,7 +501,7 @@ Internet-Draft         The Deprecation HTTP Header         February 2019
 
 
 
-Dalal & Wilde            Expires August 16, 2019                [Page 9]
+Dalal & Wilde            Expires August 17, 2019                [Page 9]
 
 Internet-Draft         The Deprecation HTTP Header         February 2019
 
@@ -513,7 +513,9 @@ Internet-Draft         The Deprecation HTTP Header         February 2019
 
 Acknowledgments
 
-   The authors take all responsibility for errors and omissions.
+   The authors would like to thank Mark Nottingham, Nikhil Kolekar, ...
+   for review of this specification.  The authors take all
+   responsibility for errors and omissions.
 
 Authors' Addresses
 
@@ -555,6 +557,4 @@ Authors' Addresses
 
 
 
-
-
-Dalal & Wilde            Expires August 16, 2019               [Page 10]
+Dalal & Wilde            Expires August 17, 2019               [Page 10]

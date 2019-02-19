@@ -6,7 +6,7 @@ The HTTP Deprecation header field can be used to signal to consumers of an URI-i
 
 If the draft you want to make a comment on specifies an e-mail list for feedback, please use this address. Usually, it's in the abstract.
 
-Otherwise, feel free to the authors [Sanjay Dalal](mailto:sanjay.dalal@cal.berkeley.edu) or [Erik Wilde](mailto:erik.wilde@dret.net) via email, or to open an issue on GitHub.
+Otherwise, feel free to contact the authors [Sanjay Dalal](mailto:sanjay.dalal@cal.berkeley.edu) or [Erik Wilde](mailto:erik.wilde@dret.net) via email, or to open an issue on GitHub.
 
 ## Making Contributions
 

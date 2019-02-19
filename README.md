@@ -10,7 +10,7 @@ Otherwise, feel free to contact the authors [Sanjay Dalal](mailto:sanjay.dalal@c
 
 ## Making Contributions
 
-If you want to submit a pull request against a draft, modify `draft.md` only. We use [kramdown-rfc2629](https://github.com/cabo/kramdown-rfc2629) to verify the content and generate txt and xml. 
+If you want to submit a pull request against the draft, modify `draft.md` only. We use [kramdown-rfc2629](https://github.com/cabo/kramdown-rfc2629) to verify the content and generate txt and xml. 
 
 ```
 kramdown-rfc2629 draft.md

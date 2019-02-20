@@ -55,7 +55,7 @@ The HTTP Deprecation response header can be used to signal to consumers of a URI
 
 Deprecation of a URI-identified resource is a technique to communicate information about the life cycle of a resource: to encourage client applications to migrate away from the resource, to discourage applications from forming new dependencies on the resource, and to inform client applications of the risks of continuing dependence upon the resource. 
 
-The act of deprecation does not change any behavior of the resource {{Deprecation}}. It just informs the clients of the fact. Deprecation HTTP response header field MUST be used to convey this fact at runtime to the clients. This header could carry additional information such as since when the deprecation is in effect. 
+The act of deprecation does not change any behavior of the resource {{Deprecation}}. It just informs the clients of the fact. The Deprecation HTTP response header field MAY be used to convey this fact at runtime to clients. This header could carry additional information such as since when the deprecation is in effect. 
 
 In addition to the Deprecation header field, the resource provider could use other header fields to convey additional information related to deprecation. For example, information such as where to find documentation related to the deprecation or what should be used as an alternate and when the deprecated resource would be unreachable, etc. Alternates of a resource could be similar resource(s) or a later version of the same resource.
 

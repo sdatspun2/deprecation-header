@@ -2,7 +2,7 @@
 coding: utf-8
 
 title: The Deprecation HTTP Header
-docname: draft-dalals-deprecation-header-00
+docname: draft-dalal-deprecation-header-00
 category: std
 
 stand_alone: yes
@@ -34,7 +34,7 @@ informative:
        date: 2017         
     
     Sunset:
-       target: https://tools.ietf.org/html/draft-wilde-sunset-header-10
+       target: https://tools.ietf.org/html/draft-wilde-sunset-header-11
        title: The Sunset HTTP Header Field
        author:
        -
@@ -55,10 +55,9 @@ The HTTP Deprecation response header can be used to signal to consumers of a URI
 
 Deprecation of a URI-identified resource is a technique to communicate information about the life cycle of a resource: to encourage client applications to migrate away from the resource, to discourage applications from forming new dependencies on the resource, and to inform client applications of the risks of continuing dependence upon the resource. 
 
-The act of deprecation does not change any behavior of the resource {{Deprecation}}. It just informs the clients of the fact. Deprecation HTTP response header field MUST be used to convey this fact at runtime to the clients. This header could carry additional information such as since when the deprecation is in effect. 
+The act of deprecation does not change any behavior of the resource {{Deprecation}}. It just informs the clients of the fact. The Deprecation HTTP response header field MAY be used to convey this fact at runtime to clients. This header could carry additional information such as since when the deprecation is in effect. 
 
 In addition to the Deprecation header field, the resource provider could use other header fields to convey additional information related to deprecation. For example, information such as where to find documentation related to the deprecation or what should be used as an alternate and when the deprecated resource would be unreachable, etc. Alternates of a resource could be similar resource(s) or a later version of the same resource.
-
 
 
 ##  Notational Conventions
@@ -77,24 +76,21 @@ The `Deprecation` HTTP response header field allows a server to communicate to a
 
 The `Deprecation` response header contains the header name "Deprecation" followed by a ":" and a property(s). Each property consists of a name-value-pair. Servers SHOULD NOT send Deprecation headers that fail to conform to the following grammar:
 
-    deprecation-header = "Deprecation:" SP property-list
-    property-list = 1#2property
-    property = property-name "=" property-value
-    property-name = token
+    deprecation-header = "Deprecation:" SP "version"=vval, "date"=dval, *( extension )
+    extension = property-name "=" property-value
+    property-name = DQUOTE token DQUOTE
     token = <token, defined as in [RFC7230], Section 3.2.6>
-    property-value = value-octet / ( DQUOTE value-octet DQUOTE )
-    property-value-octet = %x23 / %x2D / %x2B / %x2D-3A / %x41-5A / 
-                           %x61-7A / %x7C
-                           ; US-ASCII characters  
-
+    vval = property-value
+    property-value = DQUOTE *( pchar ) DQUOTE
+    pchar = %x23 / %x2B-3A / %x41-5A / %x61-7A / %x7C
+          ; US-ASCII characters  
+    dval = DQUOTE HTTP-date DQUOTE
 
 Note that some of the grammatical terms above reference documents that use different grammatical notations than this document (which uses ABNF from {{!RFC5234}}).
    
-To maximize compatibility with user agents, servers that wish to store arbitrary data in a property-value SHOULD encode that data, for example, using Base64 {{!RFC4648}}.
-   
 Servers SHOULD NOT include more than one `Deprecation` header field in the same response. If a server sends multiple responses containing `Deprecation` headers concurrently to the user agent (e.g., when communicating with the user agent over multiple sockets), these responses create a "race condition" that can lead to unpredictable behavior. 
 
-The value of `Deprecation` response header field could consist of at least 1 standard property: `date` or `version`as shown below. Either `version` or `date` is REQUIRED both are also allowed.
+The value of `Deprecation` response header field could consist of at least 1 standard property: `date` or `version` as shown below. Either of `version` or `date` is REQUIRED and both are also allowed.
 
     Deprecation: version="version", date="date"
     
@@ -247,28 +243,27 @@ other implementations may exist.
 
 According to RFC 6982, "this will allow reviewers and working groups to assign due consideration to documents that have the benefit of running code, which may serve as evidence of valuable experimentation and feedback that have made the implemented protocols more mature. It is up to the individual working groups to use this information as they see fit".
 
+Following is an example list of publicly documented approaches used by various API developers to inform API consumers of deprecated API elements including endpoints.
 
-    Organization: PayPal
+1. Zapier uses `X-API-Deprecation-Date` and `X-API-Deprecation-Info`, ref: https://zapier.com/engineering/api-geriatrics/
+2. IBM uses `Deprecated`, ref: https://www.ibm.com/support/knowledgecenter/en/SS42VS_7.3.1/com.ibm.qradar.doc/c_rest_api_getting_started.html
+3. Ultipro and Zalando use the HTTP `Warning` header with code `299`, ref: https://connect.ultipro.com/api-deprecation, https://opensource.zalando.com/restful-api-guidelines/#189
+4. Clearbit uses `X-API-Warn`, ref: https://blog.clearbit.com/dealing-with-deprecation/, https://apievangelist.com/2016/04/13/some-of-the-common-building-blocks-of-api-deprecation/ 
+5. PayPal uses `PayPal-Deprecated`, ref: https://github.com/paypal/api-standards/blob/master/api-style-guide.md#runtime
+
+    On Mon, Jan 7, 2019 at 3:02 PM Kolekar, Nikhil <nkolekar@paypal.com> wrote:
+    Hi Sanjay,
     
-    Name: PayPal API Guidelines
+    It was nice catching up with you. I looked at the proposed “sunset” header at https://tools.ietf.org/id/draft-wilde-sunset-header-03.html.
     
-    Licensing: OpenSource (https://www.paypal-engineering.com/2017/09/)
+    We have been using formal semantics for both ‘deprecation’ and ‘retirement’ for API product versions at PayPal for the last couple of years. I strongly feel that “deprecated” is a lifecycle-state for an API product version, and merely communicating a date in the future for this state transition misses an opportunity to communicate more pertinent details, and may raise more questions. From an API versioning point of view, a “retirement date” for a “deprecated” (already) API is more critical – it sets an expectation, hopefully in line with the published public versioning policy for the API provider, for the API consumer as to till when they should expect a deprecated API product to be available and plan for migration/transition accordingly.
     
-    Description: PayPal core capabilities are available from a 
-    platform of discoverable, well-encapsulated, reusable API-driven 
-    products. PayPal as a Service (PPaaS) is a micro service platform 
-    offering a portfolio of 150+ RESTful APIs for use by internal and 
-    external developers to access several PayPal capabilities. These 
-    APIs are used by applications including but not limited to 
-    build.com, Uber, eBay, Venmo, Braintree, Samsung, and numerous 
-    internal PayPal applications. 
+    The fact that an API version is deprecated can be communicated as part of version management and release communication for the API. What would be valuable with this header is the knowledge the API is in “deprecated” state, an optional API version “since” when this API has been deprecated (could be the current version), an “expiry (or retirement) date” after which the API version may not be available, and an optional reference to proposed alternatives that might provide same or similar capabilities.
     
-    Maturity: Production (internal and external APIs). 
+    These aspects are part of the open-sourced API style guide from PayPal, described here, and actively utilized for lifecycle-management for PayPal’s API portfolio.
     
-    Coverage: HTTP Header for deprecation
-    
-    Contact: Nikhil Kolekar (nikhil.kolekar@gmail.com)
-    
+    Best,
+    Nikhil    
 
 # Security Considerations
 
@@ -306,7 +301,8 @@ Deprecation header with links for the successor version and for the API develope
 # Acknowledgments
 
 
+The authors would like to thank Mark Nottingham, Nikhil Kolekar, Dan Reedy, Justin Rennell and Geoff Coffey for reviewing this specification. 
 
-The authors would like to thank Mark Nottingham, Nikhil Kolekar (PayPal) and Dan Reedy (Apple) for reviewing this specification. The authors take all responsibility for errors and omissions.
+The authors take all responsibility for errors and omissions.
 
 

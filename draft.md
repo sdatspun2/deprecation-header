@@ -34,7 +34,7 @@ informative:
        date: 2017         
     
     Sunset:
-       target: https://tools.ietf.org/html/draft-wilde-sunset-header-11
+       target: https://tools.ietf.org/html/draft-wilde-sunset-header-10
        title: The Sunset HTTP Header Field
        author:
        -
@@ -76,7 +76,8 @@ The `Deprecation` HTTP response header field allows a server to communicate to a
 
 The `Deprecation` response header contains the header name "Deprecation" followed by a ":" and a property(s). Each property consists of a name-value-pair. Servers SHOULD NOT send Deprecation headers that fail to conform to the following grammar:
 
-    deprecation-header = "Deprecation:" SP "version"=vval, "date"=dval, *( extension )
+    deprecation-header = "Deprecation:" SP "version"=vval, "date"=dval, 
+                         *( extension )
     extension = property-name "=" property-value
     property-name = DQUOTE token DQUOTE
     token = <token, defined as in [RFC7230], Section 3.2.6>
@@ -125,7 +126,7 @@ In addition to the Deprecation HTTP header, the server could use a `Link` header
  
 ## Documentation
 
-For a URI-identified resource, deprecation could involve one or more parts of request, response or both. These parts could be: 
+For a URI-identified resource, deprecation could involve one or more parts of request, response or both. These parts could be one or more of the following. 
 
 * URI - deprecation of one ore more query parameter(s) or path element(s)
 * method - HTTP method for the resource is deprecated
@@ -134,20 +135,18 @@ For a URI-identified resource, deprecation could involve one or more parts of re
 * request body - request body contains one or more deprecated element(s)
 * response body - response body contains one or more deprecated element(s)
 
-The purpose of the `Deprecation` header is to provide just enough "hints" about the deprecation to the client application developer. It is safe to assume that on reception of the `Deprecation` header, the client developer would look up documentation related to the resource including its deprecation semantics. 
-
-In order to improve the client developer's experience, the resource developer could provide a link to the documentation using a `Link` header  with relation type `deprecation` as shown below. 
+The purpose of the `Deprecation` header is to provide just enough "hints" about the deprecation to the client application developer. It is safe to assume that on reception of the `Deprecation` header, the client developer would look up the resource's documentation in order to find deprecation related semantics. The resource developer could provide a link to the resource documentation using a `Link` header with relation type `deprecation` as shown below. 
 
     Deprecation: version="v1"
     Link: <https://developer.example.com/v1/customers>; rel="deprecation"
            type="text/html"
 
-where content at `https://developer.example.com/v1/customers` is properly annotated to show deprecation of the relevant parts of the `customers` resource.
+where content at `https://developer.example.com/v1/customers` would be annotated to show deprecation of the relevant parts of the `customers` resource.
 
 
 ## Policy
 
-To inform the client application developer of the deprecation policy, the resource provider could use `deprecation` relation type as shown below.
+Resource provider would typically document versioning and deprecation policy with the resource documentation. To inform the client application developer of the deprecation policy, the resource provider could use the `deprecation` relation type as shown below.
 
     Deprecation: version="v1"
     Link: <https://developer.example.com/deprecation>; rel="deprecation" 
@@ -158,10 +157,10 @@ where deprecation policy of the resource provider `example.com` is described at 
 
 # Recommend Replacement
 
-`Link` {{!RFC8288}} header could be used in addition to the `Deprecation` header to recommend the client application about available alternates to the deprecated resource. Following relation types as defined in {{!RFC5988}} are RECOMMENDED to use for the purpose.
+`Link` {{!RFC8288}} header could be used in addition to the `Deprecation` header to recommend the client application about available alternates to the deprecated resource. Following relation types as defined in {{!RFC8288}} are RECOMMENDED to use for the purpose.
 
-* `successor-version`: Points to a resource containing the successor version. {{!RFC5829}}
-* `latest-version`: Points to a resource containing the latest (e.g., current) version. {{!RFC5829}}
+* `successor-version`: Points to a resource containing the successor version. {{?RFC5829}}
+* `latest-version`: Points to a resource containing the latest (e.g., current) version. {{?RFC5829}}
 * `alternate`: Designates a substitute. [W3C.REC-html401-19991224]
 
 Following example provides link to the successor version of the v1 version of `customer` resource that is deprecated.
@@ -201,7 +200,7 @@ The `Deprecation` response header should be added to the permanent registry of m
     Header Field Name: Deprecation
     
     Applicable Protocol: Hypertext Transfer Protocol (HTTP)
-
+    
     Status: Standard
     
     Author: Sanjay Dalal <sanjay.dalal@cal.berkeley.edu>, 
@@ -210,7 +209,7 @@ The `Deprecation` response header should be added to the permanent registry of m
     Change controller: IETF
     
     Specification document: this specification, 
-                    Section 2 "The Deprecation HTTP Response Header Field"
+                Section 2 "The Deprecation HTTP Response Header Field"
 
 
 
@@ -219,18 +218,18 @@ The `Deprecation` response header should be added to the permanent registry of m
 The `deprecation` link relation type should be added to the permanent registry of link relation types according to Section 4.2 of {{!RFC8288}}:
 
     Relation Type: deprecation
-    
+
     Applicable Protocol: Hypertext Transfer Protocol (HTTP)
-    
+
     Status: Standard
-    
+
     Author: Sanjay Dalal <sanjay.dalal@cal.berkeley.edu>, 
             Erik Wilde <erik.wilde@dret.net>
-    
+
     Change controller: IETF
-    
+
     Specification document: this specification, 
-                    Section 3 "The Deprecation Link Relation Type"
+            Section 3 "The Deprecation Link Relation Type"
 
 
 
@@ -238,20 +237,20 @@ The `deprecation` link relation type should be added to the permanent registry o
 
 Note to RFC Editor: Please remove this section before publication.
 
-This section records the status of known implementations of the protocol defined by this specification at the time of posting of this Internet-Draft, and is based on a proposal described in {{?RFC6982}}.  The description of implementations in this section is intended to assist the IETF in its decision processes in progressing drafts to RFCs.  Please note that the listing of any individual implementation here does not imply endorsement by the IETF. Furthermore, no effort has been spent to verify the information presented here that was supplied by IETF contributors.  This is not intended as, and must not be construed to be, a catalog of available implementations or their features.  Readers are advised to note that
+This section records the status of known implementations of the protocol defined by this specification at the time of posting of this Internet-Draft, and is based on a proposal described in {{?RFC7942}}.  The description of implementations in this section is intended to assist the IETF in its decision processes in progressing drafts to RFCs.  Please note that the listing of any individual implementation here does not imply endorsement by the IETF. Furthermore, no effort has been spent to verify the information presented here that was supplied by IETF contributors.  This is not intended as, and must not be construed to be, a catalog of available implementations or their features.  Readers are advised to note that
 other implementations may exist.
 
-According to RFC 6982, "this will allow reviewers and working groups to assign due consideration to documents that have the benefit of running code, which may serve as evidence of valuable experimentation and feedback that have made the implemented protocols more mature. It is up to the individual working groups to use this information as they see fit".
+According to RFC 7942, "this will allow reviewers and working groups to assign due consideration to documents that have the benefit of running code, which may serve as evidence of valuable experimentation and feedback that have made the implemented protocols more mature. It is up to the individual working groups to use this information as they see fit".
 
 Following is an example list of publicly documented approaches used by various API developers to inform API consumers of deprecated API elements including endpoints.
 
-1. Zapier uses `X-API-Deprecation-Date` and `X-API-Deprecation-Info`, ref: https://zapier.com/engineering/api-geriatrics/
-2. IBM uses `Deprecated`, ref: https://www.ibm.com/support/knowledgecenter/en/SS42VS_7.3.1/com.ibm.qradar.doc/c_rest_api_getting_started.html
-3. Ultipro and Zalando use the HTTP `Warning` header with code `299`, ref: https://connect.ultipro.com/api-deprecation, https://opensource.zalando.com/restful-api-guidelines/#189
-4. Clearbit uses `X-API-Warn`, ref: https://blog.clearbit.com/dealing-with-deprecation/, https://apievangelist.com/2016/04/13/some-of-the-common-building-blocks-of-api-deprecation/ 
-5. PayPal uses `PayPal-Deprecated`, ref: https://github.com/paypal/api-standards/blob/master/api-style-guide.md#runtime
+1. Zapier uses HTTP headers named `X-API-Deprecation-Date` and `X-API-Deprecation-Info`, ref: https://zapier.com/engineering/api-geriatrics/
+2. IBM uses an HTTP header named `Deprecated`, ref: https://www.ibm.com/support/knowledgecenter/en/SS42VS_7.3.1/com.ibm.qradar.doc/c_rest_api_getting_started.html
+3. Ultipro and Zalando use the HTTP `Warning` header as described in Section 5.5 of {{!RFC7234}} with code `299` , ref: https://connect.ultipro.com/api-deprecation, https://opensource.zalando.com/restful-api-guidelines/#189
+4. Clearbit uses an HTTP header named `X-API-Warn`, ref: https://blog.clearbit.com/dealing-with-deprecation/, https://apievangelist.com/2016/04/13/some-of-the-common-building-blocks-of-api-deprecation/ 
+5. PayPal uses an HTTP header named `PayPal-Deprecated`, ref: https://github.com/paypal/api-standards/blob/master/api-style-guide.md#runtime
 
-    On Mon, Jan 7, 2019 at 3:02 PM Kolekar, Nikhil <nkolekar@paypal.com> wrote:
+    On Mon, Jan 7, 2019 at 3:02 PM Kolekar, Nikhil nkolekar at paypal.com wrote:
     Hi Sanjay,
     
     It was nice catching up with you. I looked at the proposed “sunset” header at https://tools.ietf.org/id/draft-wilde-sunset-header-03.html.
@@ -267,11 +266,11 @@ Following is an example list of publicly documented approaches used by various A
 
 # Security Considerations
 
-The content of a `Link` header field is not secure, private or integrity-guaranteed, and due caution should be exercised when using it. Use of Transport Layer Security (TLS) with HTTP ({{!RFC2818}} and {{!RFC2817}}) is currently the only end-to-end way to provide such protection.
+The content of a `Link` header field is not secure, private or integrity-guaranteed, and due caution should be exercised when using it. Use of Transport Layer Security (TLS) with HTTP ({{!RFC7230}} is currently the only end-to-end way to provide such protection.
 
-The suggested `Link` header fields make extensive use of IRIs and URIs. See {{!RFC3987}} for security considerations relating to IRIs. See {{!RFC3986}} for security considerations relating to URIs. See {{!RFC2616}} for security considerations relating to HTTP headers.
+The suggested `Link` header fields make extensive use of IRIs and URIs. See {{!RFC3987}} for security considerations relating to IRIs. See {{!RFC3986}} for security considerations relating to URIs. See {{!RFC7230}} for security considerations relating to HTTP headers.
 
-Applications that take advantage of typed links should consider the attack vectors opened by automatically following, trusting, or otherwise using links gathered from the HTTP headers. In particular, Link headers that use the `successor-version`, `latest-version` or `alternate` relation types should be treated with due caution. See {{!RFC5829}} for security considerations relating to these link relation types.
+Applications that take advantage of typed links should consider the attack vectors opened by automatically following, trusting, or otherwise using links gathered from the HTTP headers. In particular, Link headers that use the `successor-version`, `latest-version` or `alternate` relation types should be treated with due caution. See {{?RFC5829}} for security considerations relating to these link relation types.
    
 
 
@@ -301,7 +300,7 @@ Deprecation header with links for the successor version and for the API develope
 # Acknowledgments
 
 
-The authors would like to thank Mark Nottingham, Nikhil Kolekar, Dan Reedy, Justin Rennell and Geoff Coffey for reviewing this specification. 
+The authors would like to thank Mark Nottingham and Nikhil Kolekar for reviewing this specification. 
 
 The authors take all responsibility for errors and omissions.
 

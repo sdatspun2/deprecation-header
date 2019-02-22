@@ -34,7 +34,7 @@
       </address>
     </author>
 
-    <date year="2019" month="February" day="20"/>
+    <date year="2019" month="February" day="21"/>
 
     
     
@@ -82,7 +82,8 @@
 <t>The <spanx style="verb">Deprecation</spanx> response header contains the header name “Deprecation” followed by a “:” and a property(s). Each property consists of a name-value-pair. Servers SHOULD NOT send Deprecation headers that fail to conform to the following grammar:</t>
 
 <figure><artwork><![CDATA[
-deprecation-header = "Deprecation:" SP "version"=vval, "date"=dval, *( extension )
+deprecation-header = "Deprecation:" SP "version"=vval, "date"=dval, 
+                     *( extension )
 extension = property-name "=" property-value
 property-name = DQUOTE token DQUOTE
 token = <token, defined as in [RFC7230], Section 3.2.6>
@@ -141,7 +142,7 @@ Deprecation: date="Fri, 11 Nov 2018 23:59:59 GMT"
 
 <section anchor="documentation" title="Documentation">
 
-<t>For a URI-identified resource, deprecation could involve one or more parts of request, response or both. These parts could be:</t>
+<t>For a URI-identified resource, deprecation could involve one or more parts of request, response or both. These parts could be one or more of the following.</t>
 
 <t><list style="symbols">
   <t>URI - deprecation of one ore more query parameter(s) or path element(s)</t>
@@ -152,9 +153,7 @@ Deprecation: date="Fri, 11 Nov 2018 23:59:59 GMT"
   <t>response body - response body contains one or more deprecated element(s)</t>
 </list></t>
 
-<t>The purpose of the <spanx style="verb">Deprecation</spanx> header is to provide just enough “hints” about the deprecation to the client application developer. It is safe to assume that on reception of the <spanx style="verb">Deprecation</spanx> header, the client developer would look up documentation related to the resource including its deprecation semantics.</t>
-
-<t>In order to improve the client developer’s experience, the resource developer could provide a link to the documentation using a <spanx style="verb">Link</spanx> header  with relation type <spanx style="verb">deprecation</spanx> as shown below.</t>
+<t>The purpose of the <spanx style="verb">Deprecation</spanx> header is to provide just enough “hints” about the deprecation to the client application developer. It is safe to assume that on reception of the <spanx style="verb">Deprecation</spanx> header, the client developer would look up the resource’s documentation in order to find deprecation related semantics. The resource developer could provide a link to the resource documentation using a <spanx style="verb">Link</spanx> header with relation type <spanx style="verb">deprecation</spanx> as shown below.</t>
 
 <figure><artwork><![CDATA[
 Deprecation: version="v1"
@@ -162,12 +161,12 @@ Link: <https://developer.example.com/v1/customers>; rel="deprecation"
        type="text/html"
 ]]></artwork></figure>
 
-<t>where content at <spanx style="verb">https://developer.example.com/v1/customers</spanx> is properly annotated to show deprecation of the relevant parts of the <spanx style="verb">customers</spanx> resource.</t>
+<t>where content at <spanx style="verb">https://developer.example.com/v1/customers</spanx> would be annotated to show deprecation of the relevant parts of the <spanx style="verb">customers</spanx> resource.</t>
 
 </section>
 <section anchor="policy" title="Policy">
 
-<t>To inform the client application developer of the deprecation policy, the resource provider could use <spanx style="verb">deprecation</spanx> relation type as shown below.</t>
+<t>Resource provider would typically document versioning and deprecation policy with the resource documentation. To inform the client application developer of the deprecation policy, the resource provider could use the <spanx style="verb">deprecation</spanx> relation type as shown below.</t>
 
 <figure><artwork><![CDATA[
 Deprecation: version="v1"
@@ -181,7 +180,7 @@ Link: <https://developer.example.com/deprecation>; rel="deprecation"
 </section>
 <section anchor="recommend-replacement" title="Recommend Replacement">
 
-<t><spanx style="verb">Link</spanx> <xref target="RFC8288"/> header could be used in addition to the <spanx style="verb">Deprecation</spanx> header to recommend the client application about available alternates to the deprecated resource. Following relation types as defined in <xref target="RFC5988"/> are RECOMMENDED to use for the purpose.</t>
+<t><spanx style="verb">Link</spanx> <xref target="RFC8288"/> header could be used in addition to the <spanx style="verb">Deprecation</spanx> header to recommend the client application about available alternates to the deprecated resource. Following relation types as defined in <xref target="RFC8288"/> are RECOMMENDED to use for the purpose.</t>
 
 <t><list style="symbols">
   <t><spanx style="verb">successor-version</spanx>: Points to a resource containing the successor version. <xref target="RFC5829"/></t>
@@ -242,7 +241,7 @@ Author: Sanjay Dalal <sanjay.dalal@cal.berkeley.edu>,
 Change controller: IETF
 
 Specification document: this specification, 
-                Section 2 "The Deprecation HTTP Response Header Field"
+            Section 2 "The Deprecation HTTP Response Header Field"
 ]]></artwork></figure>
 
 </section>
@@ -263,7 +262,7 @@ Author: Sanjay Dalal <sanjay.dalal@cal.berkeley.edu>,
 Change controller: IETF
 
 Specification document: this specification, 
-                Section 3 "The Deprecation Link Relation Type"
+        Section 3 "The Deprecation Link Relation Type"
 ]]></artwork></figure>
 
 </section>
@@ -272,20 +271,20 @@ Specification document: this specification,
 
 <t>Note to RFC Editor: Please remove this section before publication.</t>
 
-<t>This section records the status of known implementations of the protocol defined by this specification at the time of posting of this Internet-Draft, and is based on a proposal described in <xref target="RFC6982"/>.  The description of implementations in this section is intended to assist the IETF in its decision processes in progressing drafts to RFCs.  Please note that the listing of any individual implementation here does not imply endorsement by the IETF. Furthermore, no effort has been spent to verify the information presented here that was supplied by IETF contributors.  This is not intended as, and must not be construed to be, a catalog of available implementations or their features.  Readers are advised to note that
+<t>This section records the status of known implementations of the protocol defined by this specification at the time of posting of this Internet-Draft, and is based on a proposal described in <xref target="RFC7942"/>.  The description of implementations in this section is intended to assist the IETF in its decision processes in progressing drafts to RFCs.  Please note that the listing of any individual implementation here does not imply endorsement by the IETF. Furthermore, no effort has been spent to verify the information presented here that was supplied by IETF contributors.  This is not intended as, and must not be construed to be, a catalog of available implementations or their features.  Readers are advised to note that
 other implementations may exist.</t>
 
-<t>According to RFC 6982, “this will allow reviewers and working groups to assign due consideration to documents that have the benefit of running code, which may serve as evidence of valuable experimentation and feedback that have made the implemented protocols more mature. It is up to the individual working groups to use this information as they see fit”.</t>
+<t>According to RFC 7942, “this will allow reviewers and working groups to assign due consideration to documents that have the benefit of running code, which may serve as evidence of valuable experimentation and feedback that have made the implemented protocols more mature. It is up to the individual working groups to use this information as they see fit”.</t>
 
 <t>Following is an example list of publicly documented approaches used by various API developers to inform API consumers of deprecated API elements including endpoints.</t>
 
 <t><list style="numbers">
-  <t>Zapier uses <spanx style="verb">X-API-Deprecation-Date</spanx> and <spanx style="verb">X-API-Deprecation-Info</spanx>, ref: https://zapier.com/engineering/api-geriatrics/</t>
-  <t>IBM uses <spanx style="verb">Deprecated</spanx>, ref: https://www.ibm.com/support/knowledgecenter/en/SS42VS_7.3.1/com.ibm.qradar.doc/c_rest_api_getting_started.html</t>
-  <t>Ultipro and Zalando use the HTTP <spanx style="verb">Warning</spanx> header with code <spanx style="verb">299</spanx>, ref: https://connect.ultipro.com/api-deprecation, https://opensource.zalando.com/restful-api-guidelines/#189</t>
-  <t>Clearbit uses <spanx style="verb">X-API-Warn</spanx>, ref: https://blog.clearbit.com/dealing-with-deprecation/, https://apievangelist.com/2016/04/13/some-of-the-common-building-blocks-of-api-deprecation/</t>
-  <t>PayPal uses <spanx style="verb">PayPal-Deprecated</spanx>, ref: https://github.com/paypal/api-standards/blob/master/api-style-guide.md#runtime  <vspace blankLines='1'/>
-On Mon, Jan 7, 2019 at 3:02 PM Kolekar, Nikhil <eref target="mailto:nkolekar@paypal.com">nkolekar@paypal.com</eref> wrote:
+  <t>Zapier uses HTTP headers named <spanx style="verb">X-API-Deprecation-Date</spanx> and <spanx style="verb">X-API-Deprecation-Info</spanx>, ref: https://zapier.com/engineering/api-geriatrics/</t>
+  <t>IBM uses an HTTP header named <spanx style="verb">Deprecated</spanx>, ref: https://www.ibm.com/support/knowledgecenter/en/SS42VS_7.3.1/com.ibm.qradar.doc/c_rest_api_getting_started.html</t>
+  <t>Ultipro and Zalando use the HTTP <spanx style="verb">Warning</spanx> header as described in Section 5.5 of <xref target="RFC7234"/> with code <spanx style="verb">299</spanx> , ref: https://connect.ultipro.com/api-deprecation, https://opensource.zalando.com/restful-api-guidelines/#189</t>
+  <t>Clearbit uses an HTTP header named <spanx style="verb">X-API-Warn</spanx>, ref: https://blog.clearbit.com/dealing-with-deprecation/, https://apievangelist.com/2016/04/13/some-of-the-common-building-blocks-of-api-deprecation/</t>
+  <t>PayPal uses an HTTP header named <spanx style="verb">PayPal-Deprecated</spanx>, ref: https://github.com/paypal/api-standards/blob/master/api-style-guide.md#runtime  <vspace blankLines='1'/>
+On Mon, Jan 7, 2019 at 3:02 PM Kolekar, Nikhil nkolekar at paypal.com wrote:
  Hi Sanjay,  <vspace blankLines='1'/>
 It was nice catching up with you. I looked at the proposed “sunset” header at https://tools.ietf.org/id/draft-wilde-sunset-header-03.html.  <vspace blankLines='1'/>
 We have been using formal semantics for both ‘deprecation’ and ‘retirement’ for API product versions at PayPal for the last couple of years. I strongly feel that “deprecated” is a lifecycle-state for an API product version, and merely communicating a date in the future for this state transition misses an opportunity to communicate more pertinent details, and may raise more questions. From an API versioning point of view, a “retirement date” for a “deprecated” (already) API is more critical – it sets an expectation, hopefully in line with the published public versioning policy for the API provider, for the API consumer as to till when they should expect a deprecated API product to be available and plan for migration/transition accordingly.  <vspace blankLines='1'/>
@@ -298,9 +297,9 @@ Best,
 </section>
 <section anchor="security-considerations" title="Security Considerations">
 
-<t>The content of a <spanx style="verb">Link</spanx> header field is not secure, private or integrity-guaranteed, and due caution should be exercised when using it. Use of Transport Layer Security (TLS) with HTTP (<xref target="RFC2818"/> and <xref target="RFC2817"/>) is currently the only end-to-end way to provide such protection.</t>
+<t>The content of a <spanx style="verb">Link</spanx> header field is not secure, private or integrity-guaranteed, and due caution should be exercised when using it. Use of Transport Layer Security (TLS) with HTTP (<xref target="RFC7230"/> is currently the only end-to-end way to provide such protection.</t>
 
-<t>The suggested <spanx style="verb">Link</spanx> header fields make extensive use of IRIs and URIs. See <xref target="RFC3987"/> for security considerations relating to IRIs. See <xref target="RFC3986"/> for security considerations relating to URIs. See <xref target="RFC2616"/> for security considerations relating to HTTP headers.</t>
+<t>The suggested <spanx style="verb">Link</spanx> header fields make extensive use of IRIs and URIs. See <xref target="RFC3987"/> for security considerations relating to IRIs. See <xref target="RFC3986"/> for security considerations relating to URIs. See <xref target="RFC7230"/> for security considerations relating to HTTP headers.</t>
 
 <t>Applications that take advantage of typed links should consider the attack vectors opened by automatically following, trusting, or otherwise using links gathered from the HTTP headers. In particular, Link headers that use the <spanx style="verb">successor-version</spanx>, <spanx style="verb">latest-version</spanx> or <spanx style="verb">alternate</spanx> relation types should be treated with due caution. See <xref target="RFC5829"/> for security considerations relating to these link relation types.</t>
 
@@ -426,34 +425,6 @@ Link: <https://developer.example.com/deprecation>; rel="deprecation"
 
 
 
-<reference  anchor="RFC5988" target='https://www.rfc-editor.org/info/rfc5988'>
-<front>
-<title>Web Linking</title>
-<author initials='M.' surname='Nottingham' fullname='M. Nottingham'><organization /></author>
-<date year='2010' month='October' />
-<abstract><t>This document specifies relation types for Web links, and defines a registry for them.  It also defines the use of such links in HTTP headers with the Link header field.  [STANDARDS-TRACK]</t></abstract>
-</front>
-<seriesInfo name='RFC' value='5988'/>
-<seriesInfo name='DOI' value='10.17487/RFC5988'/>
-</reference>
-
-
-
-<reference  anchor="RFC5829" target='https://www.rfc-editor.org/info/rfc5829'>
-<front>
-<title>Link Relation Types for Simple Version Navigation between Web Resources</title>
-<author initials='A.' surname='Brown' fullname='A. Brown'><organization /></author>
-<author initials='G.' surname='Clemm' fullname='G. Clemm'><organization /></author>
-<author initials='J.' surname='Reschke' fullname='J. Reschke' role='editor'><organization /></author>
-<date year='2010' month='April' />
-<abstract><t>This specification defines a set of link relation types that may be used on Web resources for navigation between a resource and other resources related to version control, such as past versions and working copies.  This document is not an Internet Standards Track  specification; it is published for informational purposes.</t></abstract>
-</front>
-<seriesInfo name='RFC' value='5829'/>
-<seriesInfo name='DOI' value='10.17487/RFC5829'/>
-</reference>
-
-
-
 <reference  anchor="RFC3864" target='https://www.rfc-editor.org/info/rfc3864'>
 <front>
 <title>Registration Procedures for Message Header Fields</title>
@@ -470,29 +441,17 @@ Link: <https://developer.example.com/deprecation>; rel="deprecation"
 
 
 
-<reference  anchor="RFC2818" target='https://www.rfc-editor.org/info/rfc2818'>
+<reference  anchor="RFC7234" target='https://www.rfc-editor.org/info/rfc7234'>
 <front>
-<title>HTTP Over TLS</title>
-<author initials='E.' surname='Rescorla' fullname='E. Rescorla'><organization /></author>
-<date year='2000' month='May' />
-<abstract><t>This memo describes how to use Transport Layer Security (TLS) to secure Hypertext Transfer Protocol (HTTP) connections over the Internet.  This memo provides information for the Internet community.</t></abstract>
+<title>Hypertext Transfer Protocol (HTTP/1.1): Caching</title>
+<author initials='R.' surname='Fielding' fullname='R. Fielding' role='editor'><organization /></author>
+<author initials='M.' surname='Nottingham' fullname='M. Nottingham' role='editor'><organization /></author>
+<author initials='J.' surname='Reschke' fullname='J. Reschke' role='editor'><organization /></author>
+<date year='2014' month='June' />
+<abstract><t>The Hypertext Transfer Protocol (HTTP) is a stateless \%application- level protocol for distributed, collaborative, hypertext information systems.  This document defines HTTP caches and the associated header fields that control cache behavior or indicate cacheable response messages.</t></abstract>
 </front>
-<seriesInfo name='RFC' value='2818'/>
-<seriesInfo name='DOI' value='10.17487/RFC2818'/>
-</reference>
-
-
-
-<reference  anchor="RFC2817" target='https://www.rfc-editor.org/info/rfc2817'>
-<front>
-<title>Upgrading to TLS Within HTTP/1.1</title>
-<author initials='R.' surname='Khare' fullname='R. Khare'><organization /></author>
-<author initials='S.' surname='Lawrence' fullname='S. Lawrence'><organization /></author>
-<date year='2000' month='May' />
-<abstract><t>This memo explains how to use the Upgrade mechanism in HTTP/1.1 to initiate Transport Layer Security (TLS) over an existing TCP connection. [STANDARDS-TRACK]</t></abstract>
-</front>
-<seriesInfo name='RFC' value='2817'/>
-<seriesInfo name='DOI' value='10.17487/RFC2817'/>
+<seriesInfo name='RFC' value='7234'/>
+<seriesInfo name='DOI' value='10.17487/RFC7234'/>
 </reference>
 
 
@@ -527,25 +486,6 @@ Link: <https://developer.example.com/deprecation>; rel="deprecation"
 
 
 
-<reference  anchor="RFC2616" target='https://www.rfc-editor.org/info/rfc2616'>
-<front>
-<title>Hypertext Transfer Protocol -- HTTP/1.1</title>
-<author initials='R.' surname='Fielding' fullname='R. Fielding'><organization /></author>
-<author initials='J.' surname='Gettys' fullname='J. Gettys'><organization /></author>
-<author initials='J.' surname='Mogul' fullname='J. Mogul'><organization /></author>
-<author initials='H.' surname='Frystyk' fullname='H. Frystyk'><organization /></author>
-<author initials='L.' surname='Masinter' fullname='L. Masinter'><organization /></author>
-<author initials='P.' surname='Leach' fullname='P. Leach'><organization /></author>
-<author initials='T.' surname='Berners-Lee' fullname='T. Berners-Lee'><organization /></author>
-<date year='1999' month='June' />
-<abstract><t>HTTP has been in use by the World-Wide Web global information initiative since 1990. This specification defines the protocol referred to as &quot;HTTP/1.1&quot;, and is an update to RFC 2068.  [STANDARDS-TRACK]</t></abstract>
-</front>
-<seriesInfo name='RFC' value='2616'/>
-<seriesInfo name='DOI' value='10.17487/RFC2616'/>
-</reference>
-
-
-
 
     </references>
 
@@ -560,7 +500,7 @@ Link: <https://developer.example.com/deprecation>; rel="deprecation"
     <date year="2017"/>
   </front>
 </reference>
-<reference anchor="Sunset" target="https://tools.ietf.org/html/draft-wilde-sunset-header-11">
+<reference anchor="Sunset" target="https://tools.ietf.org/html/draft-wilde-sunset-header-10">
   <front>
     <title>The Sunset HTTP Header Field</title>
     <author initials="E." surname="Wilde" fullname="Erik Wilde">
@@ -573,16 +513,32 @@ Link: <https://developer.example.com/deprecation>; rel="deprecation"
 
 
 
-<reference  anchor="RFC6982" target='https://www.rfc-editor.org/info/rfc6982'>
+<reference  anchor="RFC5829" target='https://www.rfc-editor.org/info/rfc5829'>
+<front>
+<title>Link Relation Types for Simple Version Navigation between Web Resources</title>
+<author initials='A.' surname='Brown' fullname='A. Brown'><organization /></author>
+<author initials='G.' surname='Clemm' fullname='G. Clemm'><organization /></author>
+<author initials='J.' surname='Reschke' fullname='J. Reschke' role='editor'><organization /></author>
+<date year='2010' month='April' />
+<abstract><t>This specification defines a set of link relation types that may be used on Web resources for navigation between a resource and other resources related to version control, such as past versions and working copies.  This document is not an Internet Standards Track  specification; it is published for informational purposes.</t></abstract>
+</front>
+<seriesInfo name='RFC' value='5829'/>
+<seriesInfo name='DOI' value='10.17487/RFC5829'/>
+</reference>
+
+
+
+<reference  anchor="RFC7942" target='https://www.rfc-editor.org/info/rfc7942'>
 <front>
 <title>Improving Awareness of Running Code: The Implementation Status Section</title>
 <author initials='Y.' surname='Sheffer' fullname='Y. Sheffer'><organization /></author>
 <author initials='A.' surname='Farrel' fullname='A. Farrel'><organization /></author>
-<date year='2013' month='July' />
-<abstract><t>This document describes a simple process that allows authors of Internet-Drafts to record the status of known implementations by including an Implementation Status section.  This will allow reviewers and working groups to assign due consideration to documents that have the benefit of running code, which may serve as evidence of valuable experimentation and feedback that have made the implemented protocols more mature.</t><t>The process in this document is offered as an experiment.  Authors of Internet-Drafts are encouraged to consider using the process for their documents, and working groups are invited to think about applying the process to all of their protocol specifications.  The authors of this document intend to collate experiences with this experiment and to report them to the community.</t></abstract>
+<date year='2016' month='July' />
+<abstract><t>This document describes a simple process that allows authors of Internet-Drafts to record the status of known implementations by including an Implementation Status section.  This will allow reviewers and working groups to assign due consideration to documents that have the benefit of running code, which may serve as evidence of valuable experimentation and feedback that have made the implemented protocols more mature.</t><t>This process is not mandatory.  Authors of Internet-Drafts are encouraged to consider using the process for their documents, and working groups are invited to think about applying the process to all of their protocol specifications.  This document obsoletes RFC 6982, advancing it to a Best Current Practice.</t></abstract>
 </front>
-<seriesInfo name='RFC' value='6982'/>
-<seriesInfo name='DOI' value='10.17487/RFC6982'/>
+<seriesInfo name='BCP' value='205'/>
+<seriesInfo name='RFC' value='7942'/>
+<seriesInfo name='DOI' value='10.17487/RFC7942'/>
 </reference>
 
 
@@ -593,7 +549,7 @@ Link: <https://developer.example.com/deprecation>; rel="deprecation"
 
 <section anchor="acknowledgments" title="Acknowledgments">
 
-<t>The authors would like to thank Mark Nottingham, Nikhil Kolekar, Dan Reedy, Justin Rennell and Geoff Coffey for reviewing this specification.</t>
+<t>The authors would like to thank Mark Nottingham and Nikhil Kolekar for reviewing this specification.</t>
 
 <t>The authors take all responsibility for errors and omissions.</t>
 
@@ -603,139 +559,140 @@ Link: <https://developer.example.com/deprecation>; rel="deprecation"
   </back>
 
 <!-- ##markdown-source:
-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
-vBf/BPEpfwIQP01NSUroJ2j4giJbShl09vvqLfUtFDkf9W+wq1A3jtquPHD1
-vS6IY+usECdeiX3V1fDoaB1yUCWj5t9K1uUTEBJaHfN+MF0CcRmhX2VvHk9A
-T6o0YuTVvu/evcHhUedBXz2Bki1GSdkiHkG5DssIuqYfu9Eul6ax1jSiM4Qg
-7TUwER2X5A8Qz/IkBCYP9+4/2Bvs71HXTZRPImAnosQYmGFUwa2gNbFbfG3p
-69p591Tnq7660KsLyJbALD+i2xkguOqz0KuFThmJvmHD0tFGe3NtiRHkyyo1
-gqz+fHzPdXuLK/cqUy8I699BIA84xDsi07x/fH+oLl6of85Tc60LxHHJ9SyB
-l5Vdy5tvZWcC4ht1Ay3irvg8S5xb1ms8pHMxHllCqS9dxjMSOSgXZpZVXoHt
-uSohGU/nQ1C6bqx+/+0/JbD8/bf/8jxGCm37fZpk/JHbNPf3ma/7DVzfG9GM
-bBKlksAKLG1qG5xA5Hri77/9e0C233/7D5YKvIXLmBSsUegljScls5DLGD6m
-twS1o7LPSabUaINAbiH3KFZgRUuogGHMqY2DlHgqChxoaJQYoYKvbdA9DL6G
-QbQvJdkJMm7Z3hlg2PJ0tda1pOtSN5d3pcYuIJJTxAuX5KxLzmWesK/DPS2k
-ebBQuVovUEtpFJ5+kkn1h2vADgjYs0LDSNcFTsv2GE4LNYw5+IM2DkkSkcGD
-6SVHAchocM7QE0b48JuI2tFpAfqvdnnZxNk5+IPS0vb7b/9GbQJgE2eSKH3l
-FRE0EDRNSl4ZRU2m6fBiU2VnZEDZaLXh5Xy/p7KjBifaeq233kaxrYSdJTfD
-t/2vfEwnEBGV2kbME1g62YMUO903SulGEZU6+aoNaZmAgmGjUCMLb9zVEtd/
-3KLCWvuHuyoVEJz7K6mGxGRykyBBeio0IqCo1kTub8B9eRbio6++ZzfTh7K1
-f+Ow3lxHSSQeqW1ejVFp/9jgAWbinvCsu7YQno50DCW9aKjDfyLuxbb82E6r
-T8wl6/1au7wLFgTZEoTbO9zc5Xl1t2ZW6CgyluzgeeAbvK28l1yTVUQnPEDT
-vimFaFGXPmOcLH2SEywwq6+tScMkYPK99bFe6FGSgjHgSbeYgRpRXFOGdn0O
-PsAjwxyJZRZeZPsiiSjp+hRF1wsiMwoj3CFigg5CVYHhk1+NtCk0qixgG/og
-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
+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
+LMdQXvOncr3/Beca/cFVRAAA
 
 -->
 

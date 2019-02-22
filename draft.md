@@ -34,7 +34,7 @@ informative:
        date: 2017         
     
     Sunset:
-       target: https://tools.ietf.org/html/draft-wilde-sunset-header-10
+       target: https://tools.ietf.org/html/draft-wilde-sunset-header-11
        title: The Sunset HTTP Header Field
        author:
        -

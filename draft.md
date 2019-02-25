@@ -69,7 +69,7 @@ This specification uses the Augmented Backus-Naur Form (ABNF) notation of {{!RFC
 
 # The Deprecation HTTP Response Header Field
 
-The `Deprecation` HTTP response header field allows a server to communicate to a client that the URI-identified resource in context of the message is deprecated. It could also provide information that the resource is deprecated since which version and optionally when it is expected to become unresponsive. 
+The `Deprecation` HTTP response header field allows a server to communicate to a client that the URI-identified resource in context of the message is deprecated. It can also provide information that the resource is deprecated since which version and optionally when it is expected to become unresponsive. 
 
 ## Syntax
 

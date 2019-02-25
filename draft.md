@@ -109,7 +109,7 @@ Following example shows that the version 2018-11-08 (November 8, 2018) of the re
 
 ### Date
 
-The value of `date` property, if present, would be the date when resource was deprecated. It would be in the form of a quoated HTTP-date timestamp, as defined in Section 7.1.1.1 of {{!RFC7231}}. 
+The value of `date` property, if present, would be the date when resource was deprecated. It would be in the form of a quoted HTTP-date timestamp, as defined in Section 7.1.1.1 of {{!RFC7231}}. 
 
 Following example shows that the resource in context is deprecated on Friday, November 11, 2018 at 23:59:59 GMT.
 

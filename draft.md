@@ -66,7 +66,6 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 This specification uses the Augmented Backus-Naur Form (ABNF) notation of {{!RFC5234}} and includes, by reference, the "token" rule, DQUOTE (double quote) rule, the SP (space) rule and the "rule" extension that allows for compact definition of comma-separated lists using a '#' operator (similar to how the '*' operator indicates repetition), HTTP-date rule as defined within Sections 3.2.6 and 7 of {{!RFC7230}} and Section 7.1.1 of {{!RFC7231}}.
 
-As a convention, ABNF rule names prefixed with "obs-" denote "obsolete" grammar rules that appear for historical reasons.
 
 # The Deprecation HTTP Response Header Field
 

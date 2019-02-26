@@ -19,7 +19,7 @@ author:
     name: Erik Wilde
     email: erik.wilde@dret.net
     uri: http://dret.net/netdret
-  
+
 normative:
 
 informative:
@@ -41,7 +41,7 @@ informative:
            ins: E. Wilde
            name: Erik Wilde
        date: 2019
-             
+
 --- abstract
 
 The HTTP Deprecation response header can be used to signal to consumers of a URI-identified resource that the use of the resource has been deprecated. Additionally, the deprecation link relation can be used to link to a resource that provides additional context for the deprecation, and possibly ways in which clients can find a replacement for the deprecated resource.
@@ -87,13 +87,13 @@ The `Deprecation` response header contains the header name "Deprecation" followe
     dval = DQUOTE HTTP-date DQUOTE
 
 Note that some of the grammatical terms above reference documents that use different grammatical notations than this document (which uses ABNF from {{!RFC5234}}).
-   
+
 Servers SHOULD NOT include more than one `Deprecation` header field in the same response. If a server sends multiple responses containing `Deprecation` headers concurrently to the user agent (e.g., when communicating with the user agent over multiple sockets), these responses create a "race condition" that can lead to unpredictable behavior. 
 
 The value of `Deprecation` response header field could consist of at least 1 standard property: `date` or `version` as shown below. Either of `version` or `date` is REQUIRED and both are also allowed.
 
     Deprecation: version="version", date="date"
-    
+
 
 ### Version
 
@@ -102,7 +102,7 @@ The value of the `version` property, if present, could be the version of the res
 Following example indicates that the version v1 of the resource in context is deprecated.
 
     Deprecation: version="v1"
-    
+
 Following example shows that the version 2018-11-08 (November 8, 2018) of the resource in context is deprecated. Here the versioning scheme used is date-based.   
 
     Deprecation: version="2018-11-08" 
@@ -122,7 +122,7 @@ Date could be in future too. If the value of `date` is in future, it means that 
 # The Deprecation Link Relation Type
 
 In addition to the Deprecation HTTP header, the server could use a `Link` header(s) to communicate to the client where to find more information about deprecation of the resource in context. This information could be in the form of documentation of the resource including details about the deprecation related aspects of the resource or the deprecation policy of the resource provider or both for example.
- 
+
 ## Documentation
 
 For a URI-identified resource, deprecation could involve one or more parts of request, response or both. These parts could be one or more of the following. 
@@ -150,7 +150,7 @@ Resource provider would typically document versioning and deprecation policy wit
     Deprecation: version="v1"
     Link: <https://developer.example.com/deprecation>; rel="deprecation" 
            type="text/html"
-  
+
 where deprecation policy of the resource provider `example.com` is described at `https://developer.example.com/deprecation`.
 
 
@@ -166,12 +166,12 @@ Following example provides link to the successor version of the v1 version of `c
 
     Deprecation: version="v1"
     Link: <https://api.example.com/v2/customers>; rel="successor-version"
-    
+
 This example provides link to an alternate resource to the `customer` resource that is deprecated.    
 
     Deprecation: version="2018-11-11"
     Link: <https://api.example.com/v1/clients>; rel="alternate"
-    
+
 
 # Sunset
 
@@ -182,12 +182,12 @@ Following example indicates that the resource in context has been deprecated sin
 
     Deprecation: version="v2"
     Sunset: Fri, 11 Nov 2020 23:59:59 GMT
-    
+
 Following example shows that the resource in context has been deprecated since Friday, November 11, 2018 at 23:59:59 GMT and its sunset date is Friday, November 11, 2020 at 23:59:59 GMT.
 
     Deprecation: date="Fri, 11 Nov 2018 23:59:59 GMT"
     Sunset: Fri, 11 Nov 2020 23:59:59 GMT    
-    
+
 
 
 # IANA Considerations
@@ -217,16 +217,16 @@ The `Deprecation` response header should be added to the permanent registry of m
 The `deprecation` link relation type should be added to the permanent registry of link relation types according to Section 4.2 of {{!RFC8288}}:
 
     Relation Type: deprecation
-
+    
     Applicable Protocol: Hypertext Transfer Protocol (HTTP)
-
+    
     Status: Standard
-
+    
     Author: Sanjay Dalal <sanjay.dalal@cal.berkeley.edu>, 
             Erik Wilde <erik.wilde@dret.net>
-
+    
     Change controller: IETF
-
+    
     Specification document: this specification, 
             Section 3 "The Deprecation Link Relation Type"
 
@@ -241,27 +241,47 @@ other implementations may exist.
 
 According to RFC 7942, "this will allow reviewers and working groups to assign due consideration to documents that have the benefit of running code, which may serve as evidence of valuable experimentation and feedback that have made the implemented protocols more mature. It is up to the individual working groups to use this information as they see fit".
 
-Following is an example list of publicly documented approaches used by various API developers to inform API consumers of deprecated API elements including endpoints.
 
-1. Zapier uses HTTP headers named `X-API-Deprecation-Date` and `X-API-Deprecation-Info`, ref: https://zapier.com/engineering/api-geriatrics/
-2. IBM uses an HTTP header named `Deprecated`, ref: https://www.ibm.com/support/knowledgecenter/en/SS42VS_7.3.1/com.ibm.qradar.doc/c_rest_api_getting_started.html
-3. Ultipro and Zalando use the HTTP `Warning` header as described in Section 5.5 of {{!RFC7234}} with code `299` , ref: https://connect.ultipro.com/api-deprecation, https://opensource.zalando.com/restful-api-guidelines/#189
-4. Clearbit uses an HTTP header named `X-API-Warn`, ref: https://blog.clearbit.com/dealing-with-deprecation/, https://apievangelist.com/2016/04/13/some-of-the-common-building-blocks-of-api-deprecation/ 
-5. PayPal uses an HTTP header named `PayPal-Deprecated`, ref: https://github.com/paypal/api-standards/blob/master/api-style-guide.md#runtime
 
-    On Mon, Jan 7, 2019 at 3:02 PM Kolekar, Nikhil nkolekar at paypal.com wrote:
-    Hi Sanjay,
-    
-    It was nice catching up with you. I looked at the proposed “sunset” header at https://tools.ietf.org/id/draft-wilde-sunset-header-03.html.
-    
-    We have been using formal semantics for both ‘deprecation’ and ‘retirement’ for API product versions at PayPal for the last couple of years. I strongly feel that “deprecated” is a lifecycle-state for an API product version, and merely communicating a date in the future for this state transition misses an opportunity to communicate more pertinent details, and may raise more questions. From an API versioning point of view, a “retirement date” for a “deprecated” (already) API is more critical – it sets an expectation, hopefully in line with the published public versioning policy for the API provider, for the API consumer as to till when they should expect a deprecated API product to be available and plan for migration/transition accordingly.
-    
-    The fact that an API version is deprecated can be communicated as part of version management and release communication for the API. What would be valuable with this header is the knowledge the API is in “deprecated” state, an optional API version “since” when this API has been deprecated (could be the current version), an “expiry (or retirement) date” after which the API version may not be available, and an optional reference to proposed alternatives that might provide same or similar capabilities.
-    
-    These aspects are part of the open-sourced API style guide from PayPal, described here, and actively utilized for lifecycle-management for PayPal’s API portfolio.
-    
-    Best,
-    Nikhil    
+Organization: Zapier
+
+Description: Zapier uses two custom HTTP headers named `X-API-Deprecation-Date` and `X-API-Deprecation-Info`
+
+Reference:  https://zapier.com/engineering/api-geriatrics/
+
+
+
+Organization: IBM
+
+IBM uses a custom HTTP header named `Deprecated`
+
+Reference: https://www.ibm.com/support/knowledgecenter/en/SS42VS_7.3.1/com.ibm.qradar.doc/c_rest_api_getting_started.html
+
+
+
+Organization: Ultipro
+
+Description: Ultipro uses the HTTP `Warning` header as described in Section 5.5 of {{!RFC7234}} with code `299` 
+
+Reference:  https://connect.ultipro.com/api-deprecation
+
+
+
+Organization: Clearbit
+
+Description: Clearbit uses a custom HTTP header named `X-API-Warn`
+
+Reference: https://blog.clearbit.com/dealing-with-deprecation/
+
+
+
+Organization: PayPal
+
+Description: PayPal uses a custom HTTP header named `PayPal-Deprecated`
+
+Reference: https://github.com/paypal/api-standards/blob/master/api-style-guide.md#runtime
+
+
 
 # Security Considerations
 
@@ -270,7 +290,7 @@ The content of a `Link` header field is not secure, private or integrity-guarant
 The suggested `Link` header fields make extensive use of IRIs and URIs. See {{!RFC3987}} for security considerations relating to IRIs. See {{!RFC3986}} for security considerations relating to URIs. See {{!RFC7230}} for security considerations relating to HTTP headers.
 
 Applications that take advantage of typed links should consider the attack vectors opened by automatically following, trusting, or otherwise using links gathered from the HTTP headers. In particular, Link headers that use the `successor-version`, `latest-version` or `alternate` relation types should be treated with due caution. See {{?RFC5829}} for security considerations relating to these link relation types.
-   
+
 
 
 # Example
@@ -278,15 +298,16 @@ Applications that take advantage of typed links should consider the attack vecto
 Just deprecation header without any Link headers.
 
     Deprecation: version="v1"
-    
+
 Deprecation header with link to the successor version.
 
     Deprecation: version="v1"
     Link: <https://api.example.com/v2/customers>; rel="successor-version"
-    
-    
+
+
+​    
 Deprecation header with links for the successor version and for the API developer's deprecation policy. Also, it shows sunset date for the deprecated version (v1).
-    
+​    
     Deprecation: version="v1", 
     Sunset: Fri, 11 Nov 2020 23:59:59 GMT
     Link: <https://api.example.com/v2/customers>; rel="successor-version"

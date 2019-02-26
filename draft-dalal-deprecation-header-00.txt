@@ -5,7 +5,7 @@
 Network Working Group                                           S. Dalal
 Internet-Draft
 Intended status: Standards Track                                E. Wilde
-Expires: August 25, 2019                               February 21, 2019
+Expires: August 30, 2019                               February 26, 2019
 
 
                       The Deprecation HTTP Header
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on August 25, 2019.
+   This Internet-Draft will expire on August 30, 2019.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Dalal & Wilde            Expires August 25, 2019                [Page 1]
+Dalal & Wilde            Expires August 30, 2019                [Page 1]
 
 Internet-Draft         The Deprecation HTTP Header         February 2019
 
@@ -73,49 +73,49 @@ Table of Contents
      3.1.  Documentation . . . . . . . . . . . . . . . . . . . . . .   5
      3.2.  Policy  . . . . . . . . . . . . . . . . . . . . . . . . .   6
    4.  Recommend Replacement . . . . . . . . . . . . . . . . . . . .   6
-   5.  Sunset  . . . . . . . . . . . . . . . . . . . . . . . . . . .   7
+   5.  Sunset  . . . . . . . . . . . . . . . . . . . . . . . . . . .   6
    6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   7
      6.1.  The Deprecation Response Header Field . . . . . . . . . .   7
-     6.2.  The Deprecation Link Relation Type  . . . . . . . . . . .   8
+     6.2.  The Deprecation Link Relation Type  . . . . . . . . . . .   7
    7.  Implementation Status . . . . . . . . . . . . . . . . . . . .   8
-   8.  Security Considerations . . . . . . . . . . . . . . . . . . .  10
+   8.  Security Considerations . . . . . . . . . . . . . . . . . . .   9
    9.  Example . . . . . . . . . . . . . . . . . . . . . . . . . . .  10
-   10. References  . . . . . . . . . . . . . . . . . . . . . . . . .  11
-     10.1.  Normative References . . . . . . . . . . . . . . . . . .  11
-     10.2.  Informative References . . . . . . . . . . . . . . . . .  12
-   Appendix A.  Acknowledgments  . . . . . . . . . . . . . . . . . .  12
+   10. References  . . . . . . . . . . . . . . . . . . . . . . . . .  10
+     10.1.  Normative References . . . . . . . . . . . . . . . . . .  10
+     10.2.  Informative References . . . . . . . . . . . . . . . . .  11
+   Appendix A.  Acknowledgments  . . . . . . . . . . . . . . . . . .  11
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  12
 
 1.  Introduction
 
    Deprecation of a URI-identified resource is a technique to
-   communicate information about the life cycle of a resource: to
-   encourage client applications to migrate away from the resource, to
+   communicate information about the lifecycle of a resource.  It
+   encourages applications to migrate away from the resource and
    discourage applications from forming new dependencies on the
-   resource, and to inform client applications of the risks of
-   continuing dependence upon the resource.
+   resource, and informs applications of the risk of continuing
+   dependence upon the resource.
 
-   The act of deprecation does not change any behavior of the resource
-   [Deprecation].  It just informs the clients of the fact.  The
-   Deprecation HTTP response header field MAY be used to convey this
-   fact at runtime to clients.  This header could carry additional
+   The act of deprecation does not change any behavior of the resource.
+   It just informs client of the fact that a resource is deprecated.
+   The Deprecation HTTP response header field MAY be used to convey this
+   fact at runtime to clients.  The header field can carry additional
    information such as since when the deprecation is in effect.
 
-   In addition to the Deprecation header field, the resource provider
-   could use other header fields to convey additional information
-   related to deprecation.  For example, information such as where to
-   find documentation related to the deprecation or what should be used
-   as an alternate and when the deprecated resource would be
+   In addition to the Deprecation header field the resource provider can
+   use other header fields to convey additional information related to
+   deprecation.  For example, information such as where to find
+   documentation related to the deprecation or what should be used as an
+   alternate and when the deprecated resource would be unreachable, etc.
 
 
 
-Dalal & Wilde            Expires August 25, 2019                [Page 2]
+Dalal & Wilde            Expires August 30, 2019                [Page 2]
 
 Internet-Draft         The Deprecation HTTP Header         February 2019
 
 
-   unreachable, etc.  Alternates of a resource could be similar
-   resource(s) or a later version of the same resource.
+   Alternates of a resource can be similar resource(s) or a newer
+   version of the same resource.
 
 1.1.  Notational Conventions
 
@@ -127,22 +127,18 @@ Internet-Draft         The Deprecation HTTP Header         February 2019
 
    This specification uses the Augmented Backus-Naur Form (ABNF)
    notation of [RFC5234] and includes, by reference, the "token" rule,
-   DQUOTE (double quote) rule, the SP (space) rule and the #rule
+   DQUOTE (double quote) rule, the SP (space) rule and the "rule"
    extension that allows for compact definition of comma-separated lists
    using a '#' operator (similar to how the '*' operator indicates
    repetition), HTTP-date rule as defined within Sections 3.2.6 and 7 of
    [RFC7230] and Section 7.1.1 of [RFC7231].
 
-   As a convention, ABNF rule names prefixed with "obs-" denote
-   "obsolete" grammar rules that appear for historical reasons.
-
 2.  The Deprecation HTTP Response Header Field
 
    The "Deprecation" HTTP response header field allows a server to
    communicate to a client that the URI-identified resource in context
-   of the message is deprecated.  It could also provide information that
-   the resource is deprecated since which version and optionally when it
-   is expected to become unresponsive.
+   of the message is deprecated.  It can also provide information that
+   the resource is deprecated since which version.
 
 2.1.  Syntax
 
@@ -162,17 +158,17 @@ Internet-Draft         The Deprecation HTTP Header         February 2019
          ; US-ASCII characters
    dval = DQUOTE HTTP-date DQUOTE
 
-
-
-
-Dalal & Wilde            Expires August 25, 2019                [Page 3]
-
-Internet-Draft         The Deprecation HTTP Header         February 2019
-
-
    Note that some of the grammatical terms above reference documents
    that use different grammatical notations than this document (which
    uses ABNF from [RFC5234]).
+
+
+
+
+Dalal & Wilde            Expires August 30, 2019                [Page 3]
+
+Internet-Draft         The Deprecation HTTP Header         February 2019
+
 
    Servers SHOULD NOT include more than one "Deprecation" header field
    in the same response.  If a server sends multiple responses
@@ -208,7 +204,7 @@ Internet-Draft         The Deprecation HTTP Header         February 2019
 2.1.2.  Date
 
    The value of "date" property, if present, would be the date when
-   resource was deprecated.  It would be in the form of a quoated HTTP-
+   resource was deprecated.  It would be in the form of a quoted HTTP-
    date timestamp, as defined in Section 7.1.1.1 of [RFC7231].
 
    Following example shows that the resource in context is deprecated on
@@ -216,19 +212,19 @@ Internet-Draft         The Deprecation HTTP Header         February 2019
 
    Deprecation: date="Fri, 11 Nov 2018 23:59:59 GMT"
 
-
-
-
-
-
-Dalal & Wilde            Expires August 25, 2019                [Page 4]
-
-Internet-Draft         The Deprecation HTTP Header         February 2019
-
-
    Date could be in future too.  If the value of "date" is in future, it
    means that the resource would be deprecated on the given date in
    future.
+
+
+
+
+
+
+Dalal & Wilde            Expires August 30, 2019                [Page 4]
+
+Internet-Draft         The Deprecation HTTP Header         February 2019
+
 
 3.  The Deprecation Link Relation Type
 
@@ -273,18 +269,18 @@ Internet-Draft         The Deprecation HTTP Header         February 2019
    Link: <https://developer.example.com/v1/customers>; rel="deprecation"
           type="text/html"
 
-
-
-
-
-Dalal & Wilde            Expires August 25, 2019                [Page 5]
-
-Internet-Draft         The Deprecation HTTP Header         February 2019
-
-
    where content at "https://developer.example.com/v1/customers" would
    be annotated to show deprecation of the relevant parts of the
    "customers" resource.
+
+
+
+
+
+Dalal & Wilde            Expires August 30, 2019                [Page 5]
+
+Internet-Draft         The Deprecation HTTP Header         February 2019
+
 
 3.2.  Policy
 
@@ -327,17 +323,6 @@ Internet-Draft         The Deprecation HTTP Header         February 2019
    Deprecation: version="2018-11-11"
    Link: <https://api.example.com/v1/clients>; rel="alternate"
 
-
-
-
-
-
-
-Dalal & Wilde            Expires August 25, 2019                [Page 6]
-
-Internet-Draft         The Deprecation HTTP Header         February 2019
-
-
 5.  Sunset
 
    In addition to the deprecation related information, if the resource
@@ -345,6 +330,13 @@ Internet-Draft         The Deprecation HTTP Header         February 2019
    deprecated resource is expected to become unresponsive at a specific
    point in time, the [Sunset] header could be used in addition to the
    "Deprecation" header.
+
+
+
+Dalal & Wilde            Expires August 30, 2019                [Page 6]
+
+Internet-Draft         The Deprecation HTTP Header         February 2019
+
 
    Following example indicates that the resource in context has been
    deprecated since version v2 and its sunset date is Friday, November
@@ -382,23 +374,25 @@ Internet-Draft         The Deprecation HTTP Header         February 2019
    Specification document: this specification,
                Section 2 "The Deprecation HTTP Response Header Field"
 
-
-
-
-
-
-
-
-Dalal & Wilde            Expires August 25, 2019                [Page 7]
-
-Internet-Draft         The Deprecation HTTP Header         February 2019
-
-
 6.2.  The Deprecation Link Relation Type
 
    The "deprecation" link relation type should be added to the permanent
    registry of link relation types according to Section 4.2 of
    [RFC8288]:
+
+
+
+
+
+
+
+
+
+
+Dalal & Wilde            Expires August 30, 2019                [Page 7]
+
+Internet-Draft         The Deprecation HTTP Header         February 2019
+
 
    Relation Type: deprecation
 
@@ -438,83 +432,48 @@ Internet-Draft         The Deprecation HTTP Header         February 2019
    It is up to the individual working groups to use this information as
    they see fit".
 
-   Following is an example list of publicly documented approaches used
-   by various API developers to inform API consumers of deprecated API
-   elements including endpoints.
+   Organization: Zapier
+
+   Description: Zapier uses two custom HTTP headers named "X-API-
+   Deprecation-Date" and "X-API-Deprecation-Info"
+
+   Reference: https://zapier.com/engineering/api-geriatrics/
+
+   Organization: IBM
+
+   IBM uses a custom HTTP header named "Deprecated"
 
 
 
-
-Dalal & Wilde            Expires August 25, 2019                [Page 8]
+Dalal & Wilde            Expires August 30, 2019                [Page 8]
 
 Internet-Draft         The Deprecation HTTP Header         February 2019
 
 
-   1.  Zapier uses HTTP headers named "X-API-Deprecation-Date" and "X-
-       API-Deprecation-Info", ref: https://zapier.com/engineering/api-
-       geriatrics/
+   Reference:
+   https://www.ibm.com/support/knowledgecenter/en/SS42VS_7.3.1/
+   com.ibm.qradar.doc/c_rest_api_getting_started.html
 
-   2.  IBM uses an HTTP header named "Deprecated", ref:
-       https://www.ibm.com/support/knowledgecenter/en/SS42VS_7.3.1/
-       com.ibm.qradar.doc/c_rest_api_getting_started.html
+   Organization: Ultipro
 
-   3.  Ultipro and Zalando use the HTTP "Warning" header as described in
-       Section 5.5 of [RFC7234] with code "299" , ref:
-       https://connect.ultipro.com/api-deprecation,
-       https://opensource.zalando.com/restful-api-guidelines/#189
+   Description: Ultipro uses the HTTP "Warning" header as described in
+   Section 5.5 of [RFC7234] with code "299"
 
-   4.  Clearbit uses an HTTP header named "X-API-Warn", ref:
-       https://blog.clearbit.com/dealing-with-deprecation/,
-       https://apievangelist.com/2016/04/13/some-of-the-common-building-
-       blocks-of-api-deprecation/
+   Reference: https://connect.ultipro.com/api-deprecation
 
-   5.  PayPal uses an HTTP header named "PayPal-Deprecated", ref:
-       https://github.com/paypal/api-standards/blob/master/api-style-
-       guide.md#runtime
+   Organization: Clearbit
 
-       On Mon, Jan 7, 2019 at 3:02 PM Kolekar, Nikhil nkolekar at
-       paypal.com wrote: Hi Sanjay,
+   Description: Clearbit uses a custom HTTP header named "X-API-Warn"
 
-       It was nice catching up with you.  I looked at the proposed
-       "sunset" header at https://tools.ietf.org/id/draft-wilde-sunset-
-       header-03.html.
+   Reference: https://blog.clearbit.com/dealing-with-deprecation/
 
-       We have been using formal semantics for both 'deprecation' and
-       'retirement' for API product versions at PayPal for the last
-       couple of years.  I strongly feel that "deprecated" is a
-       lifecycle-state for an API product version, and merely
-       communicating a date in the future for this state transition
-       misses an opportunity to communicate more pertinent details, and
-       may raise more questions.  From an API versioning point of view,
-       a "retirement date" for a "deprecated" (already) API is more
-       critical - it sets an expectation, hopefully in line with the
-       published public versioning policy for the API provider, for the
-       API consumer as to till when they should expect a deprecated API
-       product to be available and plan for migration/transition
-       accordingly.
+   Organization: PayPal
 
-       The fact that an API version is deprecated can be communicated as
-       part of version management and release communication for the API.
-       What would be valuable with this header is the knowledge the API
-       is in "deprecated" state, an optional API version "since" when
-       this API has been deprecated (could be the current version), an
+   Description: PayPal uses a custom HTTP header named "PayPal-
+   Deprecated"
 
-
-
-Dalal & Wilde            Expires August 25, 2019                [Page 9]
-
-Internet-Draft         The Deprecation HTTP Header         February 2019
-
-
-       "expiry (or retirement) date" after which the API version may not
-       be available, and an optional reference to proposed alternatives
-       that might provide same or similar capabilities.
-
-       These aspects are part of the open-sourced API style guide from
-       PayPal, described here, and actively utilized for lifecycle-
-       management for PayPal's API portfolio.
-
-       Best, Nikhil
+   Reference: https://github.com/paypal/api-standards/blob/master/api-
+   style-guide.md#runtime
 
 8.  Security Considerations
 
@@ -536,6 +495,17 @@ Internet-Draft         The Deprecation HTTP Header         February 2019
    [RFC5829] for security considerations relating to these link relation
    types.
 
+
+
+
+
+
+
+Dalal & Wilde            Expires August 30, 2019                [Page 9]
+
+Internet-Draft         The Deprecation HTTP Header         February 2019
+
+
 9.  Example
 
    Just deprecation header without any Link headers.
@@ -551,18 +521,7 @@ Internet-Draft         The Deprecation HTTP Header         February 2019
    API developer's deprecation policy.  Also, it shows sunset date for
    the deprecated version (v1).
 
-
-
-
-
-
-
-Dalal & Wilde            Expires August 25, 2019               [Page 10]
-
-Internet-Draft         The Deprecation HTTP Header         February 2019
-
-
-   Deprecation: version="v1",
+   Deprecation: version="v1"
    Sunset: Fri, 11 Nov 2020 23:59:59 GMT
    Link: <https://api.example.com/v2/customers>; rel="successor-version"
    Link: <https://developer.example.com/deprecation>; rel="deprecation"
@@ -595,6 +554,14 @@ Internet-Draft         The Deprecation HTTP Header         February 2019
               DOI 10.17487/RFC5234, January 2008,
               <https://www.rfc-editor.org/info/rfc5234>.
 
+
+
+
+Dalal & Wilde            Expires August 30, 2019               [Page 10]
+
+Internet-Draft         The Deprecation HTTP Header         February 2019
+
+
    [RFC7230]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
               Protocol (HTTP/1.1): Message Syntax and Routing",
               RFC 7230, DOI 10.17487/RFC7230, June 2014,
@@ -609,14 +576,6 @@ Internet-Draft         The Deprecation HTTP Header         February 2019
               Ed., "Hypertext Transfer Protocol (HTTP/1.1): Caching",
               RFC 7234, DOI 10.17487/RFC7234, June 2014,
               <https://www.rfc-editor.org/info/rfc7234>.
-
-
-
-
-Dalal & Wilde            Expires August 25, 2019               [Page 11]
-
-Internet-Draft         The Deprecation HTTP Header         February 2019
-
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
@@ -644,12 +603,20 @@ Internet-Draft         The Deprecation HTTP Header         February 2019
 
    [Sunset]   Wilde, E., "The Sunset HTTP Header Field", 2019,
               <https://tools.ietf.org/html/
-              draft-wilde-sunset-header-10>.
+              draft-wilde-sunset-header-11>.
 
 Appendix A.  Acknowledgments
 
    The authors would like to thank Mark Nottingham and Nikhil Kolekar
    for reviewing this specification.
+
+
+
+
+Dalal & Wilde            Expires August 30, 2019               [Page 11]
+
+Internet-Draft         The Deprecation HTTP Header         February 2019
+
 
    The authors take all responsibility for errors and omissions.
 
@@ -669,4 +636,37 @@ Authors' Addresses
 
 
 
-Dalal & Wilde            Expires August 25, 2019               [Page 12]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Dalal & Wilde            Expires August 30, 2019               [Page 12]

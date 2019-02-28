@@ -1,7 +1,7 @@
 ---
 coding: utf-8
 
-title: The Deprecation HTTP Header
+title: The Deprecation HTTP Header Field
 docname: draft-dalal-deprecation-header-00
 category: std
 
@@ -44,7 +44,7 @@ informative:
 
 --- abstract
 
-The HTTP Deprecation response header can be used to signal to consumers of a URI-identified resource that the use of the resource has been deprecated. Additionally, the deprecation link relation can be used to link to a resource that provides additional context for the deprecation, and possibly ways in which clients can find a replacement for the deprecated resource.
+The HTTP Deprecation response header field can be used to signal to consumers of a URI-identified resource that the use of the resource has been deprecated. Additionally, the deprecation link relation can be used to link to a resource that provides additional context for the deprecation, and possibly ways in which clients can find a replacement for the deprecated resource.
 
 
 --- middle

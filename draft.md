@@ -121,7 +121,7 @@ Date could be in future too. If the value of `date` is in future, it means that 
 
 # The Deprecation Link Relation Type
 
-In addition to the Deprecation HTTP header field, the server can use a `Link` header field to communicate to the client where to find more information about deprecation of the context. This information can be in the form of documentation of the resource including details about the deprecation related aspects of the context or the deprecation policy of the context provider or both for example.
+In addition to the Deprecation HTTP header field, the server can use links with the "deprecation" link relation type to communicate to the client where to find more information about deprecation of the context. This information can be in the form of documentation of the resource including details about the deprecation related aspects of the context or the deprecation policy of the context provider or both for example.
 
 ## Documentation
 

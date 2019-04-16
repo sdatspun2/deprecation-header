@@ -97,7 +97,7 @@ The value of `Deprecation` response header field could consist of at least 1 sta
 
 ### Version
 
-The value of the `version` property, if present, could be the version of the resource that is deprecated. The value of `version` would be an opaque version identifier. For resources that use date-based versioning scheme, the value would be accordingly. 
+The value of the `version` property, if present, is the version of the resource that is deprecated. The value of `version` is an opaque version identifier. For resources that use date-based versioning scheme, the value accordingly can be a date. 
 
 Following example indicates that the version v1 of the resource in context is deprecated.
 
@@ -109,13 +109,13 @@ Following example shows that the version 2018-11-08 (November 8, 2018) of the re
 
 ### Date
 
-The value of `date` property, if present, would be the date when resource was deprecated. It would be in the form of a quoted HTTP-date timestamp, as defined in Section 7.1.1.1 of {{!RFC7231}}. 
+The value of `date` property, if present, is the date when resource was deprecated. It is in the form of a quoted HTTP-date timestamp, as defined in Section 7.1.1.1 of {{!RFC7231}}. 
 
-Following example shows that the resource in context is deprecated on Friday, November 11, 2018 at 23:59:59 GMT.
+Following example shows that the resource context has been deprecated on Friday, November 11, 2018 at 23:59:59 GMT.
 
     Deprecation: date="Fri, 11 Nov 2018 23:59:59 GMT"
 
-Date could be in future too. If the value of `date` is in future, it means that the resource would be deprecated on the given date in future.
+The deprecation date can be in the future. If the value of `date` is in the future, it means that the resource will be deprecated at the given date in future.
 
 
 

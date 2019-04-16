@@ -90,7 +90,7 @@ Note that some of the grammatical terms above reference documents that use diffe
 
 Servers SHOULD NOT include more than one `Deprecation` header field in the same response. If a server sends multiple responses containing `Deprecation` headers concurrently to the user agent (e.g., when communicating with the user agent over multiple sockets), these responses create a "race condition" that can lead to unpredictable behavior. 
 
-The value of `Deprecation` response header field could consist of at least 1 standard property: `date` or `version` as shown below. Either of `version` or `date` is REQUIRED and both are also allowed.
+The value of `Deprecation` response header field consists of at least one standard property, `date` or `version` as shown below. Either of `version` or `date` is REQUIRED and using both is also allowed.
 
     Deprecation: version="version", date="date"
 

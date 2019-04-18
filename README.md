@@ -2,6 +2,10 @@
 
 The HTTP Deprecation header field can be used to signal to consumers of an URI-identified resource that the use of the resource has been deprecated. Additionally, the deprecation link relation can be used to link to a resource that provides additional context for the deprecation, and possibly ways in which clients can find a replacement for the deprecated resource.
 
+## Published draft
+
+The latest published draft can always be found [on the IETF site](https://tools.ietf.org/html/draft-dalal-deprecation-header).
+
 ## Providing Feedback
 
 If the draft you want to make a comment on specifies an e-mail list for feedback, please use this address. Usually, it's in the abstract.
@@ -27,7 +31,3 @@ Then use [xml2rfc](https://xml2rfc.tools.ietf.org) to generate .html, .pdf, etc.
 ```
 xml2rfc draft.xml —html 
 ```
-
-
-
-

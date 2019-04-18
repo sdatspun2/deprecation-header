@@ -2,7 +2,7 @@
 coding: utf-8
 
 title: The Deprecation HTTP Header Field
-docname: draft-dalal-deprecation-header-00
+docname: draft-dalal-deprecation-header-01
 category: std
 
 stand_alone: yes

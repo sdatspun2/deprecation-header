@@ -88,7 +88,7 @@ The `Deprecation` response header contains the header name "Deprecation" followe
 
 Note that some of the grammatical terms above reference documents that use different grammatical notations than this document (which uses ABNF from {{!RFC5234}}).
 
-Servers SHOULD NOT include more than one `Deprecation` header field in the same response. If a server sends multiple responses containing `Deprecation` headers concurrently to the user agent (e.g., when communicating with the user agent over multiple sockets), these responses create a "race condition" that can lead to unpredictable behavior. 
+Servers SHOULD NOT include more than one `Deprecation` header field in the same response.
 
 The value of `Deprecation` response header field consists of at least one standard property, `date` or `version` as shown below. Either of `version` or `date` is REQUIRED and using both is also allowed.
 

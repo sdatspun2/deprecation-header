@@ -144,6 +144,14 @@ The purpose of the `Deprecation` header is to provide just enough "hints" about 
 
 In this example, the interlinked content provides additional information about the deprecation of the resource context. In this example, there is no Deprecation header field in the response, and thus the resource is not deprecated. However, the resource already exposes a link where information is available how deprecation is managed for the context. This may be documentation explaining the use of the Deprecation header field, and also explaining under which circumstances and with which policies (announcement before deprecation; continued operation after deprecation) deprecation might be happening.
 
+The following example uses the same link header, but also announces a deprecation date using a Deprecation header field.
+
+    Deprecation: date="Fri, 11 Nov 2018 23:59:59 GMT"
+    Link: <https://developer.example.com/deprecation>; rel="deprecation"
+       type="text/html"
+
+Given that the deprecation date is in the past, the linked resource may have been updated to include information about the deprecation, allowing clients to discover information about the deprecation that happened.
+
 
 # Recommend Replacement
 

@@ -141,18 +141,18 @@ For a URI-identified resource, deprecation could involve one or more parts of re
 
 The purpose of the `Deprecation` header is to provide just enough "hints" about the deprecation to the client application developer. It is safe to assume that on reception of the `Deprecation` header, the client developer would look up the resource's documentation in order to find deprecation related semantics. The resource developer could provide a link to the resource documentation using a `Link` header with relation type `deprecation` as shown below. 
 
-    Deprecation: version="v1"
-    Link: <https://developer.example.com/v1/customers>; rel="deprecation"
+    Deprecation: date="Fri, 11 Nov 2018 23:59:59 GMT"
+    Link: <https://developer.example.com/customers>; rel="deprecation"
            type="text/html"
 
-where content at `https://developer.example.com/v1/customers` would be annotated to show deprecation of the relevant parts of the `customers` resource.
+In this example, the interlinked content provides additional information about the deprecation of the resource context.
 
 
 ## Policy
 
 Resource provider would typically document versioning and deprecation policy with the resource documentation. To inform the client application developer of the deprecation policy, the resource provider could use the `deprecation` relation type as shown below.
 
-    Deprecation: version="v1"
+    Deprecation: date="Fri, 11 Nov 2018 23:59:59 GMT"
     Link: <https://developer.example.com/deprecation>; rel="deprecation" 
            type="text/html"
 

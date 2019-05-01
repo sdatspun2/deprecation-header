@@ -73,7 +73,7 @@ The `Deprecation` HTTP response header field allows a server to communicate to a
 
 ## Syntax
 
-The `Deprecation` response header contains the header name "Deprecation" followed by a ":" and a property(s). Each property consists of a name-value-pair. Servers SHOULD NOT send Deprecation headers that fail to conform to the following grammar:
+The `Deprecation` response header field lists properties describing the deprecation. Each property consists of a name-value-pair. Servers MUST NOT send Deprecation headers that fail to conform to the following grammar:
 
     deprecation-header = "Deprecation:" SP "version"=vval, "date"=dval, 
                          *( extension )
@@ -88,7 +88,7 @@ The `Deprecation` response header contains the header name "Deprecation" followe
 
 Note that some of the grammatical terms above reference documents that use different grammatical notations than this document (which uses ABNF from {{!RFC5234}}).
 
-Servers SHOULD NOT include more than one `Deprecation` header field in the same response.
+Servers MUST NOT include more than one `Deprecation` header field in the same response.
 
 The value of `Deprecation` response header field consists of at least one standard property, `date` or `version` as shown below. Either of `version` or `date` is REQUIRED and using both is also allowed.
 

@@ -123,7 +123,7 @@ The deprecation date can be in the future. If the value of `date` is in the futu
 
 In addition to the Deprecation HTTP header field, the server can use links with the "deprecation" link relation type to communicate to the client where to find more information about deprecation of the context. This can happen before the actual deprecation, to make a deprecation policy discoverable, or after deprecation, when there may be documentation about the deprecation, and possibly documentation of how to manage it.
 
-This specification places no restrictions on the representation of the deprecation policy. In particular, the deprecation policy may be available as human-readable documentation or as machine-readable description.
+This specification places no restrictions on the representation of the interlinked deprecation policy. In particular, the deprecation policy may be available as human-readable documentation or as machine-readable description.
 
 
 ## Documentation

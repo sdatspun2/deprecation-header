@@ -33,15 +33,6 @@ informative:
            name: Stuart Marks
        date: 2017         
     
-    Sunset:
-       target: https://tools.ietf.org/html/draft-wilde-sunset-header-11
-       title: The Sunset HTTP Header Field
-       author:
-       -
-           ins: E. Wilde
-           name: Erik Wilde
-       date: 2019
-
 --- abstract
 
 The HTTP Deprecation response header field can be used to signal to consumers of a URI-identified resource that the use of the resource has been deprecated. Additionally, the deprecation link relation can be used to link to a resource that provides additional context for the deprecation, and possibly ways in which clients can find a replacement for the deprecated resource.
@@ -175,7 +166,7 @@ This example provides link to an alternate resource to the `customer` resource t
 # Sunset
 
 
-In addition to the deprecation related information, if the resource provider wants to convey to the client application that the deprecated resource is expected to become unresponsive at a specific point in time, the {{Sunset}} header could be used in addition to the `Deprecation` header.
+In addition to the deprecation related information, if the resource provider wants to convey to the client application that the deprecated resource is expected to become unresponsive at a specific point in time, the {{?RFC8594}} header could be used in addition to the `Deprecation` header.
 
 Following example indicates that the resource in context has been deprecated since version v2 and its sunset date is Friday, November 11, 2020 at 23:59:59 GMT.
 

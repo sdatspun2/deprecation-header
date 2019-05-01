@@ -294,9 +294,9 @@ Deprecation header with link to the successor version.
     Deprecation: version="v1"
     Link: <https://api.example.com/v2/customers>; rel="successor-version"
 
-Deprecation header with links for the successor version and for the API developer's deprecation policy. Also, it shows sunset date for the deprecated version (v1).
+Deprecation header with links for the successor version and for the API developer's deprecation policy. Also, it shows the sunset date for the deprecated resource.
 
-    Deprecation: version="v1" 
+    Deprecation: date="Fri, 11 Nov 2018 23:59:59 GMT" 
     Sunset: Fri, 11 Nov 2020 23:59:59 GMT
     Link: <https://api.example.com/v2/customers>; rel="successor-version"
     Link: <https://developer.example.com/deprecation>; rel="deprecation"

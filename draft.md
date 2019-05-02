@@ -24,15 +24,6 @@ normative:
 
 informative:
     
-    Deprecation:
-       target: http://openjdk.java.net/jeps/277
-       title: JEP 277 - Enhanced Deprecation
-       author:
-       -
-           ins: S. Marks
-           name: Stuart Marks
-       date: 2017         
-    
 --- abstract
 
 The HTTP Deprecation response header field can be used to signal to consumers of a URI-identified resource that the use of the resource has been deprecated. Additionally, the deprecation link relation can be used to link to a resource that provides additional context for the deprecation, and possibly ways in which clients can find a replacement for the deprecated resource.
@@ -137,7 +128,8 @@ In this example, the interlinked content provides additional information about t
 The following example uses the same link header, but also announces a deprecation date using a Deprecation header field.
 
     Deprecation: date="Fri, 11 Nov 2018 23:59:59 GMT"
-    Link: <https://developer.example.com/deprecation>; rel="deprecation";type="text/html"
+    Link: <https://developer.example.com/deprecation>; rel="deprecation"
+       type="text/html"
 
 Given that the deprecation date is in the past, the linked resource may have been updated to include information about the deprecation, allowing clients to discover information about the deprecation that happened.
 

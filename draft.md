@@ -133,7 +133,7 @@ In addition to the deprecation related information, if the resource provider wan
 The following example shows that the resource in context has been deprecated since Friday, November 11, 2018 at 23:59:59 GMT and its sunset date is Friday, November 11, 2020 at 23:59:59 GMT.
 
     Deprecation: Sun, 11 Nov 2018 23:59:59 GMT
-    Sunset: Wed, 11 Nov 2020 23:59:59 GMT    
+    Sunset: Wed, 11 Nov 2020 23:59:59 GMT
 
 
 
@@ -240,18 +240,18 @@ Applications that take advantage of typed links should consider the attack vecto
 
 
 
-# Example
+# Examples
 
-Just deprecation header without date information.
+The first example shows a deprecation header field without date information:
 
     Deprecation: true
 
-Deprecation header with date information and link to the successor version.
+The second example shows a deprecation header with date information and a link to the successor version:
 
     Deprecation: Sun, 11 Nov 2018 23:59:59 GMT
     Link: <https://api.example.com/v2/customers>; rel="successor-version"
 
-Deprecation header with links for the successor version and for the API developer's deprecation policy. Also, it shows the sunset date for the deprecated resource.
+The third example shows a deprecation header field with links for the successor version and for the API's deprecation policy. In addition, it shows the sunset date for the deprecated resource:
 
     Deprecation: Sun, 11 Nov 2018 23:59:59 GMT
     Sunset: Wed, 11 Nov 2020 23:59:59 GMT
@@ -265,7 +265,7 @@ Deprecation header with links for the successor version and for the API develope
 # Acknowledgments
 
 
-The authors would like to thank Mark Nottingham and Nikhil Kolekar for reviewing this specification. 
+The authors would like to thank Mark Nottingham and Nikhil Kolekar for reviewing this specification.
 
 The authors take all responsibility for errors and omissions.
 

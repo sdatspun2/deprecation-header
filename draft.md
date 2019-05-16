@@ -26,7 +26,7 @@ informative:
     
 --- abstract
 
-The HTTP Deprecation response header field can be used to signal to consumers of a URI-identified resource that the use of the resource has been deprecated. Additionally, the deprecation link relation can be used to link to a resource that provides additional context for the deprecation, and possibly ways in which clients can find a replacement for the deprecated resource.
+The HTTP Deprecation response header field can be used to signal to consumers of a URI-identified resource that the resource has been deprecated. Additionally, the deprecation link relation can be used to link to a resource that provides additional context for the deprecation, and possibly ways in which clients can find a replacement for the deprecated resource.
 
 
 --- middle
@@ -37,7 +37,7 @@ The HTTP Deprecation response header field can be used to signal to consumers of
 
 Deprecation of a URI-identified resource is a technique to communicate information about the lifecycle of a resource. It encourages applications to migrate away from the resource, discourages applications from forming new dependencies on the resource, and informs applications about the risk of continuing dependence upon the resource. 
 
-The act of deprecation does not change any behavior of the resource. It just informs client of the fact that a resource is deprecated. The Deprecation HTTP response header field MAY be used to convey this fact at runtime to clients. The header field can carry additional information such as since when the deprecation is in effect. 
+The act of deprecation does not change any behavior of the resource. It just informs client of the fact that a resource is deprecated. The Deprecation HTTP response header field MAY be used to convey this fact at runtime to clients. The header field can carry information indicating since when the deprecation is in effect. 
 
 In addition to the Deprecation header field the resource provider can use other header fields to convey additional information related to deprecation. For example, information such as where to find documentation related to the deprecation or what should be used as an alternate and when the deprecated resource would be unreachable, etc. Alternates of a resource can be similar resource(s) or a newer version of the same resource.
 
@@ -46,59 +46,32 @@ In addition to the Deprecation header field the resource provider can use other 
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 {{!RFC2119}} {{!RFC8174}} when, and only when, they appear in all capitals, as shown here.
 
-This specification uses the Augmented Backus-Naur Form (ABNF) notation of {{!RFC5234}} and includes, by reference, the "token" rule, DQUOTE (double quote) rule, the SP (space) rule and the "rule" extension that allows for compact definition of comma-separated lists using a '#' operator (similar to how the '*' operator indicates repetition), HTTP-date rule as defined within Sections 3.2.6 and 7 of {{!RFC7230}} and Section 7.1.1 of {{!RFC7231}}.
+This specification uses the Augmented Backus-Naur Form (ABNF) notation of {{!RFC5234}} and includes, by reference, the HTTP-date rule as defined within Sections 3.2.6 and 7 of {{!RFC7230}} and Section 7.1.1 of {{!RFC7231}}.
 
 
 # The Deprecation HTTP Response Header Field
 
-The `Deprecation` HTTP response header field allows a server to communicate to a client that the URI-identified resource in context of the message is deprecated. It can also provide information that the resource is deprecated since which version. 
+The `Deprecation` HTTP response header field allows a server to communicate to a client that the URI-identified resource in context of the message is or will be deprecated.
 
 ## Syntax
 
-The `Deprecation` response header field lists properties describing the deprecation. Each property consists of a name-value-pair. Servers MUST NOT send Deprecation headers that fail to conform to the following grammar:
+The `Deprecation` response header field describes the deprecation. It either shows the deprecation date, which may be in the future (the resource context will be deprecated at that date) or in the past (the resource context has been deprecated at that date), or it simply flags the resource context as being deprecated:
 
-    deprecation-header = "Deprecation:" SP "version"=vval, "date"=dval, 
-                         *( extension )
-    extension = property-name "=" property-value
-    property-name = DQUOTE token DQUOTE
-    token = <token, defined as in [RFC7230], Section 3.2.6>
-    vval = property-value
-    property-value = DQUOTE *( pchar ) DQUOTE
-    pchar = %x23 / %x2B-3A / %x41-5A / %x61-7A / %x7C
-          ; US-ASCII characters  
-    dval = DQUOTE HTTP-date DQUOTE
-
-Note that some of the grammatical terms above reference documents that use different grammatical notations than this document (which uses ABNF from {{!RFC5234}}).
+    Deprecation = HTTP-date / "true"
 
 Servers MUST NOT include more than one `Deprecation` header field in the same response.
 
-The value of `Deprecation` response header field consists of at least one standard property, `date` or `version` as shown below. Either of `version` or `date` is REQUIRED and using both is also allowed.
+The date, if present, is the date when the resource context was or will be deprecated. It is in the form of an HTTP-date timestamp, as defined in Section 7.1.1.1 of {{!RFC7231}}. 
 
-    Deprecation: version="version", date="date"
+The following example shows that the resource context has been deprecated on Friday, November 11, 2018 at 23:59:59 GMT:
 
-
-### Version
-
-The value of the `version` property, if present, is the version of the resource that is deprecated. The value of `version` is an opaque version identifier. For resources that use date-based versioning scheme, the value accordingly can be a date. 
-
-Following example indicates that the version v1 of the resource in context is deprecated.
-
-    Deprecation: version="v1"
-
-Following example shows that the version 2018-11-08 (November 8, 2018) of the resource in context is deprecated. Here the versioning scheme used is date-based.   
-
-    Deprecation: version="2018-11-08" 
-
-### Date
-
-The value of `date` property, if present, is the date when resource was deprecated. It is in the form of a quoted HTTP-date timestamp, as defined in Section 7.1.1.1 of {{!RFC7231}}. 
-
-Following example shows that the resource context has been deprecated on Friday, November 11, 2018 at 23:59:59 GMT.
-
-    Deprecation: date="Fri, 11 Nov 2018 23:59:59 GMT"
+    Deprecation: Fri, 11 Nov 2018 23:59:59 GMT
 
 The deprecation date can be in the future. If the value of `date` is in the future, it means that the resource will be deprecated at the given date in future.
 
+If the deprecation date is not known, the header field can carry the simple string "true", indicating that the resource context is deprecated, without indicating when that happened:
+
+Deprecation: true
 
 
 # The Deprecation Link Relation Type
@@ -127,7 +100,7 @@ In this example, the interlinked content provides additional information about t
 
 The following example uses the same link header, but also announces a deprecation date using a Deprecation header field.
 
-    Deprecation: date="Fri, 11 Nov 2018 23:59:59 GMT"
+    Deprecation: Fri, 11 Nov 2018 23:59:59 GMT
     Link: <https://developer.example.com/deprecation>; rel="deprecation"; type="text/html"
 
 Given that the deprecation date is in the past, the linked resource may have been updated to include information about the deprecation, allowing clients to discover information about the deprecation that happened.
@@ -141,14 +114,14 @@ Given that the deprecation date is in the past, the linked resource may have bee
 * `latest-version`: Points to a resource containing the latest (e.g., current) version. {{?RFC5829}}
 * `alternate`: Designates a substitute. [W3C.REC-html401-19991224]
 
-Following example provides link to the successor version of the v1 version of `customer` resource that is deprecated.
+The following example provides link to the successor version of the requested resource that is deprecated.
 
-    Deprecation: version="v1"
+    Deprecation: Fri, 11 Nov 2018 23:59:59 GMT
     Link: <https://api.example.com/v2/customers>; rel="successor-version"
 
-This example provides link to an alternate resource to the `customer` resource that is deprecated.    
+This example provides link to an alternate resource to the requested resource that is deprecated.    
 
-    Deprecation: version="2018-11-11"
+    Deprecation: Fri, 11 Nov 2018 23:59:59 GMT
     Link: <https://api.example.com/v1/clients>; rel="alternate"
 
 
@@ -157,14 +130,9 @@ This example provides link to an alternate resource to the `customer` resource t
 
 In addition to the deprecation related information, if the resource provider wants to convey to the client application that the deprecated resource is expected to become unresponsive at a specific point in time, the {{?RFC8594}} header could be used in addition to the `Deprecation` header.
 
-Following example indicates that the resource in context has been deprecated since version v2 and its sunset date is Friday, November 11, 2020 at 23:59:59 GMT.
+The following example shows that the resource in context has been deprecated since Friday, November 11, 2018 at 23:59:59 GMT and its sunset date is Friday, November 11, 2020 at 23:59:59 GMT.
 
-    Deprecation: version="v2"
-    Sunset: Fri, 11 Nov 2020 23:59:59 GMT
-
-Following example shows that the resource in context has been deprecated since Friday, November 11, 2018 at 23:59:59 GMT and its sunset date is Friday, November 11, 2020 at 23:59:59 GMT.
-
-    Deprecation: date="Fri, 11 Nov 2018 23:59:59 GMT"
+    Deprecation: Fri, 11 Nov 2018 23:59:59 GMT
     Sunset: Fri, 11 Nov 2020 23:59:59 GMT    
 
 
@@ -274,18 +242,18 @@ Applications that take advantage of typed links should consider the attack vecto
 
 # Example
 
-Just deprecation header without any Link headers.
+Just deprecation header without date information.
 
-    Deprecation: version="v1"
+    Deprecation: true
 
-Deprecation header with link to the successor version.
+Deprecation header with date information and link to the successor version.
 
-    Deprecation: version="v1"
+    Deprecation: Fri, 11 Nov 2018 23:59:59 GMT
     Link: <https://api.example.com/v2/customers>; rel="successor-version"
 
 Deprecation header with links for the successor version and for the API developer's deprecation policy. Also, it shows the sunset date for the deprecated resource.
 
-    Deprecation: date="Fri, 11 Nov 2018 23:59:59 GMT" 
+    Deprecation: Fri, 11 Nov 2018 23:59:59 GMT
     Sunset: Fri, 11 Nov 2020 23:59:59 GMT
     Link: <https://api.example.com/v2/customers>; rel="successor-version", <https://developer.example.com/deprecation>; rel="deprecation"
 

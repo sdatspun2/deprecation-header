@@ -65,7 +65,7 @@ The date, if present, is the date when the resource context was or will be depre
 
 The following example shows that the resource context has been deprecated on Friday, November 11, 2018 at 23:59:59 GMT:
 
-    Deprecation: Fri, 11 Nov 2018 23:59:59 GMT
+    Deprecation: Sun, 11 Nov 2018 23:59:59 GMT
 
 The deprecation date can be in the future. If the value of `date` is in the future, it means that the resource will be deprecated at the given date in future.
 
@@ -100,7 +100,7 @@ In this example, the interlinked content provides additional information about t
 
 The following example uses the same link header, but also announces a deprecation date using a Deprecation header field.
 
-    Deprecation: Fri, 11 Nov 2018 23:59:59 GMT
+    Deprecation: Sun, 11 Nov 2018 23:59:59 GMT
     Link: <https://developer.example.com/deprecation>; rel="deprecation"; type="text/html"
 
 Given that the deprecation date is in the past, the linked resource may have been updated to include information about the deprecation, allowing clients to discover information about the deprecation that happened.
@@ -116,12 +116,12 @@ Given that the deprecation date is in the past, the linked resource may have bee
 
 The following example provides link to the successor version of the requested resource that is deprecated.
 
-    Deprecation: Fri, 11 Nov 2018 23:59:59 GMT
+    Deprecation: Sun, 11 Nov 2018 23:59:59 GMT
     Link: <https://api.example.com/v2/customers>; rel="successor-version"
 
 This example provides link to an alternate resource to the requested resource that is deprecated.    
 
-    Deprecation: Fri, 11 Nov 2018 23:59:59 GMT
+    Deprecation: Sun, 11 Nov 2018 23:59:59 GMT
     Link: <https://api.example.com/v1/clients>; rel="alternate"
 
 
@@ -132,8 +132,8 @@ In addition to the deprecation related information, if the resource provider wan
 
 The following example shows that the resource in context has been deprecated since Friday, November 11, 2018 at 23:59:59 GMT and its sunset date is Friday, November 11, 2020 at 23:59:59 GMT.
 
-    Deprecation: Fri, 11 Nov 2018 23:59:59 GMT
-    Sunset: Fri, 11 Nov 2020 23:59:59 GMT    
+    Deprecation: Sun, 11 Nov 2018 23:59:59 GMT
+    Sunset: Wed, 11 Nov 2020 23:59:59 GMT    
 
 
 
@@ -248,13 +248,13 @@ Just deprecation header without date information.
 
 Deprecation header with date information and link to the successor version.
 
-    Deprecation: Fri, 11 Nov 2018 23:59:59 GMT
+    Deprecation: Sun, 11 Nov 2018 23:59:59 GMT
     Link: <https://api.example.com/v2/customers>; rel="successor-version"
 
 Deprecation header with links for the successor version and for the API developer's deprecation policy. Also, it shows the sunset date for the deprecated resource.
 
-    Deprecation: Fri, 11 Nov 2018 23:59:59 GMT
-    Sunset: Fri, 11 Nov 2020 23:59:59 GMT
+    Deprecation: Sun, 11 Nov 2018 23:59:59 GMT
+    Sunset: Wed, 11 Nov 2020 23:59:59 GMT
     Link: <https://api.example.com/v2/customers>; rel="successor-version", <https://developer.example.com/deprecation>; rel="deprecation"
 
 

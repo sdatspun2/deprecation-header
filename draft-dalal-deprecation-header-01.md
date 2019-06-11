@@ -238,7 +238,11 @@ Reference: https://github.com/paypal/api-standards/blob/master/api-style-guide.m
 
 # Security Considerations
 
-The content of a `Link` header field is not secure, private or integrity-guaranteed, and due caution should be exercised when using it. Use of Transport Layer Security (TLS) with HTTP ({{!RFC7230}} is currently the only end-to-end way to provide such protection.
+The Deprecation header field SHOULD be treated as a hint, meaning that the resource is indicating (and not guaranteeing with certainty) that it is deprecated. Applications consuming the resource SHOULD check the resource documentation to verify authenticity and accuracy. Resource documentation SHOULD provide additional information about the deprecation including recommendation(s) for replacement. 
+
+In cases, where the Deprecation header field value is a date in future, it can lead to information that otherwise might not be available. Therefore, applications consuming the resource SHOULD verify the resource documentation and if possible, consult the resource developer to discuss potential impact due to deprecation and plan for possible transition to recommended resource. 
+
+In cases where `Link` header is used to provide more documentation and/or recommendation for replacement, one should assume that the content of the  `Link` header field may not be secure, private or integrity-guaranteed, and due caution should be exercised when using it. Applications consuming the resource SHOULD check the referred resource documentation to verify authenticity and accuracy. 
 
 The suggested `Link` header fields make extensive use of IRIs and URIs. See {{!RFC3987}} for security considerations relating to IRIs. See {{!RFC3986}} for security considerations relating to URIs. See {{!RFC7230}} for security considerations relating to HTTP headers.
 

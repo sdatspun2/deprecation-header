@@ -145,7 +145,7 @@ The act of deprecation does not change any behavior of the resource. Deprecated 
 
 # IANA Considerations
 
-## The Deprecation Response Header Field
+## The Deprecation HTTP Response Header Field
 
 The `Deprecation` response header should be added to the permanent registry of message header fields (see {{!RFC3864}}), taking into account the guidelines given by HTTP/1.1 {{!RFC7231}}.
 

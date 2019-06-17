@@ -5,7 +5,7 @@
 Network Working Group                                           S. Dalal
 Internet-Draft
 Intended status: Standards Track                                E. Wilde
-Expires: December 13, 2019                                 June 11, 2019
+Expires: December 19, 2019                                 June 17, 2019
 
 
                    The Deprecation HTTP Header Field
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on December 13, 2019.
+   This Internet-Draft will expire on December 19, 2019.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Dalal & Wilde           Expires December 13, 2019               [Page 1]
+Dalal & Wilde           Expires December 19, 2019               [Page 1]
 
 Internet-Draft      The Deprecation HTTP Header Field          June 2019
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Dalal & Wilde           Expires December 13, 2019               [Page 2]
+Dalal & Wilde           Expires December 19, 2019               [Page 2]
 
 Internet-Draft      The Deprecation HTTP Header Field          June 2019
 
@@ -165,7 +165,7 @@ Internet-Draft      The Deprecation HTTP Header Field          June 2019
 
 
 
-Dalal & Wilde           Expires December 13, 2019               [Page 3]
+Dalal & Wilde           Expires December 19, 2019               [Page 3]
 
 Internet-Draft      The Deprecation HTTP Header Field          June 2019
 
@@ -221,7 +221,7 @@ Link: <https://developer.example.com/deprecation>; rel="deprecation"; type="text
 
 
 
-Dalal & Wilde           Expires December 13, 2019               [Page 4]
+Dalal & Wilde           Expires December 19, 2019               [Page 4]
 
 Internet-Draft      The Deprecation HTTP Header Field          June 2019
 
@@ -277,7 +277,7 @@ Link: <https://developer.example.com/deprecation>; rel="deprecation"; type="text
 
 
 
-Dalal & Wilde           Expires December 13, 2019               [Page 5]
+Dalal & Wilde           Expires December 19, 2019               [Page 5]
 
 Internet-Draft      The Deprecation HTTP Header Field          June 2019
 
@@ -333,7 +333,7 @@ Internet-Draft      The Deprecation HTTP Header Field          June 2019
 
 
 
-Dalal & Wilde           Expires December 13, 2019               [Page 6]
+Dalal & Wilde           Expires December 19, 2019               [Page 6]
 
 Internet-Draft      The Deprecation HTTP Header Field          June 2019
 
@@ -389,7 +389,7 @@ Internet-Draft      The Deprecation HTTP Header Field          June 2019
 
 
 
-Dalal & Wilde           Expires December 13, 2019               [Page 7]
+Dalal & Wilde           Expires December 19, 2019               [Page 7]
 
 Internet-Draft      The Deprecation HTTP Header Field          June 2019
 
@@ -445,7 +445,7 @@ Internet-Draft      The Deprecation HTTP Header Field          June 2019
 
 
 
-Dalal & Wilde           Expires December 13, 2019               [Page 8]
+Dalal & Wilde           Expires December 19, 2019               [Page 8]
 
 Internet-Draft      The Deprecation HTTP Header Field          June 2019
 
@@ -501,7 +501,7 @@ Link: <https://api.example.com/v2/customers>; rel="successor-version", <https://
 
 
 
-Dalal & Wilde           Expires December 13, 2019               [Page 9]
+Dalal & Wilde           Expires December 19, 2019               [Page 9]
 
 Internet-Draft      The Deprecation HTTP Header Field          June 2019
 
@@ -557,7 +557,7 @@ Internet-Draft      The Deprecation HTTP Header Field          June 2019
 
 
 
-Dalal & Wilde           Expires December 13, 2019              [Page 10]
+Dalal & Wilde           Expires December 19, 2019              [Page 10]
 
 Internet-Draft      The Deprecation HTTP Header Field          June 2019
 
@@ -613,4 +613,4 @@ Authors' Addresses
 
 
 
-Dalal & Wilde           Expires December 13, 2019              [Page 11]
+Dalal & Wilde           Expires December 19, 2019              [Page 11]

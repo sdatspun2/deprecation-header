@@ -275,7 +275,7 @@ The third example shows a deprecation header field with links for the successor 
 # Acknowledgments
 
 
-The authors would like to thank Mark Nottingham and Nikhil Kolekar for reviewing this specification.
+The authors would like to thank Nikhil Kolekar, Mark Nottingham, and Roberto Polli for their contributions.
 
 The authors take all responsibility for errors and omissions.
 

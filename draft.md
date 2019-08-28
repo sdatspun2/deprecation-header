@@ -46,7 +46,7 @@ In addition to the Deprecation header field the resource provider can use other 
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 {{!RFC2119}} {{!RFC8174}} when, and only when, they appear in all capitals, as shown here.
 
-This specification uses the Augmented Backus-Naur Form (ABNF) notation of {{!RFC5234}} and includes, by reference, the HTTP-date rule as defined within Sections 3.2.6 and 7 of {{!RFC7230}} and Section 7.1.1 of {{!RFC7231}}.
+This specification uses the Augmented Backus-Naur Form (ABNF) notation of {{!RFC5234}} and includes, by reference, the IMF-fixdate rule as defined in Section 7.1.1.1 of {{!RFC7231}}.
 
 
 # The Deprecation HTTP Response Header Field
@@ -57,11 +57,11 @@ The `Deprecation` HTTP response header field allows a server to communicate to a
 
 The `Deprecation` response header field describes the deprecation. It either shows the deprecation date, which may be in the future (the resource context will be deprecated at that date) or in the past (the resource context has been deprecated at that date), or it simply flags the resource context as being deprecated:
 
-    Deprecation = HTTP-date / "true"
+    Deprecation = IMF-fixdate / "true"
 
 Servers MUST NOT include more than one `Deprecation` header field in the same response.
 
-The date, if present, is the date when the resource context was or will be deprecated. It is in the form of an HTTP-date timestamp, as defined in Section 7.1.1.1 of {{!RFC7231}}. 
+The date, if present, is the date when the resource context was or will be deprecated. It is in the form of an IMF-fixdate timestamp. 
 
 The following example shows that the resource context has been deprecated on Friday, November 11, 2018 at 23:59:59 GMT:
 

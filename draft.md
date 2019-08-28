@@ -134,6 +134,8 @@ This example provides link to an alternate resource to the requested resource th
 
 In addition to the deprecation related information, if the resource provider wants to convey to the client application that the deprecated resource is expected to become unresponsive at a specific point in time, the {{?RFC8594}} header could be used in addition to the `Deprecation` header.
 
+The moment referenced by the `Sunset` header field MUST be subsequent to the one referenced by the `Deprecation` header field.
+
 The following example shows that the resource in context has been deprecated since Friday, November 11, 2018 at 23:59:59 GMT and its sunset date is Friday, November 11, 2020 at 23:59:59 GMT.
 
     Deprecation: Sun, 11 Nov 2018 23:59:59 GMT

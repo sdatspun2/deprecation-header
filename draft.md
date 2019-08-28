@@ -35,7 +35,7 @@ The HTTP Deprecation response header field can be used to signal to consumers of
 
 # Introduction
 
-Deprecation of a URI-identified resource is a technique to communicate information about the lifecycle of a resource. It encourages applications to migrate away from the resource, discourages applications from forming new dependencies on the resource, and informs applications about the risk of continuing dependence upon the resource. 
+Deprecation of an http resource as defined in Section 2 of {{!RFC7231}} is a technique to communicate information about the lifecycle of a resource. It encourages applications to migrate away from the resource, discourages applications from forming new dependencies on the resource, and informs applications about the risk of continuing dependence upon the resource. 
 
 The act of deprecation does not change any behavior of the resource. It just informs client of the fact that a resource is deprecated. The Deprecation HTTP response header field MAY be used to convey this fact at runtime to clients. The header field can carry information indicating since when the deprecation is in effect. 
 
@@ -48,10 +48,11 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 This specification uses the Augmented Backus-Naur Form (ABNF) notation of {{!RFC5234}} and includes, by reference, the HTTP-date rule as defined within Sections 3.2.6 and 7 of {{!RFC7230}} and Section 7.1.1 of {{!RFC7231}}.
 
+The term "resource" is to be interpreted as defined in Section 2 of {{!RFC7231}}, that is identified by an URI. 
 
 # The Deprecation HTTP Response Header Field
 
-The `Deprecation` HTTP response header field allows a server to communicate to a client that the URI-identified resource in context of the message is or will be deprecated.
+The `Deprecation` HTTP response header field allows a server to communicate to a client that the resource in context of the message is or will be deprecated.
 
 ## Syntax
 
@@ -87,7 +88,7 @@ This specification places no restrictions on the representation of the interlink
 
 ## Documentation
 
-For a URI-identified resource, deprecation could involve one or more parts of request, response or both. These parts could be one or more of the following. 
+For a resource, deprecation could involve one or more parts of request, response or both. These parts could be one or more of the following. 
 
 * URI - deprecation of one ore more query parameter(s) or path element(s)
 * method - HTTP method for the resource is deprecated

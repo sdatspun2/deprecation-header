@@ -35,7 +35,7 @@ The HTTP Deprecation response header field can be used to signal to consumers of
 
 # Introduction
 
-Deprecation of an http resource as defined in Section 2 of {{!RFC7231}} is a technique to communicate information about the lifecycle of a resource. It encourages applications to migrate away from the resource, discourages applications from forming new dependencies on the resource, and informs applications about the risk of continuing dependence upon the resource. 
+Deprecation of an HTTP resource as defined in Section 2 of {{!RFC7231}} is a technique to communicate information about the lifecycle of a resource. It encourages applications to migrate away from the resource, discourages applications from forming new dependencies on the resource, and informs applications about the risk of continuing dependence upon the resource. 
 
 The act of deprecation does not change any behavior of the resource. It just informs client of the fact that a resource is deprecated. The Deprecation HTTP response header field MAY be used to convey this fact at runtime to clients. The header field can carry information indicating since when the deprecation is in effect. 
 

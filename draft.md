@@ -196,6 +196,14 @@ other implementations may exist.
 
 According to RFC 7942, "this will allow reviewers and working groups to assign due consideration to documents that have the benefit of running code, which may serve as evidence of valuable experimentation and feedback that have made the implemented protocols more mature. It is up to the individual working groups to use this information as they see fit".
 
+## Implementing the Deprecation Header Field
+
+This is a list of implementations that implement the deprecation header field:
+
+Organization: Apollo
+- Description: Deprecation header is returned when deprecated functionality (as declared in the GraphQL schema) is accessed
+- Reference: https://www.npmjs.com/package/apollo-server-tools
+
 ## Implementing the Concept
 
 This is a list of implementations that implement the general concept, but do so using different mechanisms:
@@ -205,7 +213,7 @@ Organization: Zapier
 - Reference:  https://zapier.com/engineering/api-geriatrics/
 
 Organization: IBM
-- IBM uses a custom HTTP header named `Deprecated`
+- Description: IBM uses a custom HTTP header named `Deprecated`
 - Reference: https://www.ibm.com/support/knowledgecenter/en/SS42VS_7.3.1/com.ibm.qradar.doc/c_rest_api_getting_started.html
 
 Organization: Ultipro

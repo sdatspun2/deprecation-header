@@ -205,6 +205,10 @@ Organization: Apollo
 - Description: Deprecation header is returned when deprecated functionality (as declared in the GraphQL schema) is accessed
 - Reference: https://www.npmjs.com/package/apollo-server-tools
 
+Organization: Zalando
+- Description: Deprecation header is recommended as the preferred way to communicate API deprecation in Zalando API designs.
+- Reference: https://opensource.zalando.com/restful-api-guidelines/#deprecation
+
 ## Implementing the Concept
 
 This is a list of implementations that implement the general concept, but do so using different mechanisms:

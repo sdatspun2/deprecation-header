@@ -115,7 +115,7 @@ Given that the deprecation date is in the past, the linked resource may have bee
 
 # Recommend Replacement
 
-`Link` {{!RFC8288}} header could be used in addition to the `Deprecation` header to recommend the client application about available alternates to the deprecated resource. Following relation types as defined in {{!RFC8288}} are RECOMMENDED to use for the purpose.
+The `Link` {{!RFC8288}} header field can be used in addition to the `Deprecation` header field to inform the client about available alternatives to the deprecated resource. The following relation types as defined in {{!RFC8288}} are RECOMMENDED to use for this purpose:
 
 * `successor-version`: Points to a resource containing the successor version. {{?RFC5829}}
 * `latest-version`: Points to a resource containing the latest (e.g., current) version. {{?RFC5829}}
